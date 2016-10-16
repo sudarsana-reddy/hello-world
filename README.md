@@ -1,2 +1,4 @@
 # hello-world
-learning epository
+learning repository
+
+This is a first edit 
