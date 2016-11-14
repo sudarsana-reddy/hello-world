@@ -6,7 +6,7 @@ using LeanFtAppModelProject1;
 using HP.LFT.SDK.StdWin;
 using System.Drawing;
 using SIFTTest;
-using AutoIt;
+
 
 namespace LeanFtTestProject1
 {
@@ -32,10 +32,7 @@ namespace LeanFtTestProject1
 
             var obj = appModel.Form1YourChoiceWindow.Form2EnglishLanguageWindow.MSFlexGridWndClassUiObject;
                
-            obj.Highlight();           
-            IntPtr ptr = AutoItX.WinGetHandle("Form2 : English language");
-            string text = AutoItX.WinGetText(ptr);           
-            Console.WriteLine(text);
+            obj.Highlight();
             Rectangle[] size = obj.GetTextLocations("Berlin");
             //string text = obj[0].GetVisibleText(new Rectangle{ X = locs[0].X+1, Y = locs[0].Y + locs[0].Height + 2} );
             

@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoItX3.Assembly">
-      <HintPath>..\..\..\..\..\Downloads\autoit-v3\AutoItX\AutoItX3.Assembly.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
