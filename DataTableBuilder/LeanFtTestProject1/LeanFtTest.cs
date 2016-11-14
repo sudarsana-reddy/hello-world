@@ -6,6 +6,7 @@ using LeanFtAppModelProject1;
 using HP.LFT.SDK.StdWin;
 using System.Drawing;
 using SIFTTest;
+using System.Diagnostics;
 
 
 namespace LeanFtTestProject1
@@ -43,12 +44,15 @@ namespace LeanFtTestProject1
         {
             string year = "2016";
             string month = "11";
-            string day = "7";
+            string day = "31";
             string d = string.Format("{0}-{1}-{2}", year, month, day);
             if(!this.IsValidFutureDate(d))
             {
                 Console.WriteLine(string.Format("{0} is not a valid/future date", d));
             }
+
+            Process.Start(new ProcessStartInfo { FileName = @"C:\Learning\WPF Flights Application\FlightsGUI.exe" });
+
             
             FlightModel model = new FlightModel();
             model.HPMyFlightSampleApplicationWindow.Activate();
