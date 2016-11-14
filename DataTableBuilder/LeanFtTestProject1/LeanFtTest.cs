@@ -58,7 +58,12 @@ namespace LeanFtTestProject1
             model.HPMyFlightSampleApplicationWindow.Activate();
             try
             {
-                model.HPMyFlightSampleApplicationWindow.CancelButton.Click();
+                model.HPMyFlightSampleApplicationWindow.Highlight();
+                model.HPMyFlightSampleApplicationWindow.AgentNameEditField.SetText("john");
+                model.HPMyFlightSampleApplicationWindow.PasswordEditField.SetText("hp");
+                model.HPMyFlightSampleApplicationWindow.OKButton.Click();
+                System.Threading.Thread.Sleep(5000);
+                System.Console.WriteLine("Login Success");
             }
             catch(HP.LFT.SDK.GeneralReplayException ex)
             {
