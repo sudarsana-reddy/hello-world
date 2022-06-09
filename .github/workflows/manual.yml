@@ -31,5 +31,8 @@ jobs:
         echo "Hello ${{ github.event.inputs.name }}"        
         pwd 
         curl -o prpc87.zip https://d2xbzkyevnvl4b.cloudfront.net/prpcServiceUtils_8.7.zip
-        unzip prpc87.zip -d prpc87
-        ls                
+        unzip prpc87.zip -d prpc87           
+        cd prpc87
+        ls
+        
+        
