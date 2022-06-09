@@ -35,5 +35,5 @@ jobs:
         cd prpc87
         ls
         cd scripts/utils
-        prpcServiceUtils.sh export
+        sh ./prpcServiceUtils.sh export
         
