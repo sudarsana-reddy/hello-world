@@ -34,5 +34,6 @@ jobs:
         unzip prpc87.zip -d prpc87           
         cd prpc87
         ls
-        
+        cd scripts/utils
+        prpcServiceUtils.sh export
         
