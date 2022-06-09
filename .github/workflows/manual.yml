@@ -28,10 +28,9 @@ jobs:
     # Runs a single command using the runners shell
     - name: Send greeting
       run: |
-        echo "Hello ${{ github.event.inputs.name }}"
-        sudo apt install curl zip unzip
+        echo "Hello ${{ github.event.inputs.name }}"        
         pwd 
-        curl -o https://d2xbzkyevnvl4b.cloudfront.net/prpcServiceUtils_8.7.zip
+        curl https://d2xbzkyevnvl4b.cloudfront.net/prpcServiceUtils_8.7.zip
         unzip prpcServiceUtils_8.7.zip -d prpc
         cd prpc
         pwd
