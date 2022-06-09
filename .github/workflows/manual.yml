@@ -36,5 +36,12 @@ jobs:
         ls
         cd scripts/utils
         chmod 711 ./../bin/ant
+        export pega.rest.server.url=https://o5svbhlt.pegace.net/prweb/PRRestService/
+        export pega.rest.username=testuser1
+        export pega.rest.password=Chilli@123
+        export pega.rest.response.type=json
+        export export.applicationVersion=01.01.01
+        export export.applicationName=MyAuto 
+        export export.async=false
         bash ./prpcServiceUtils.sh export
         
