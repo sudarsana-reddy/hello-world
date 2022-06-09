@@ -35,13 +35,13 @@ jobs:
         cd prpc87
         ls
         cd scripts/utils
-        chmod 711 ./../bin/ant
-        export pega.rest.server.url=https://o5svbhlt.pegace.net/prweb/PRRestService/
-        export pega.rest.username=testuser1
-        export pega.rest.password=Chilli@123
-        export pega.rest.response.type=json
-        export export.applicationVersion=01.01.01
-        export export.applicationName=MyAuto 
-        export export.async=false
+        sed -i "/pega.rest.server.url=/ s/=.* /=https://o5svbhlt.pegace.net/prweb/PRRestService//" prpcServiceUtils.properties
+        sed -i "/pega.rest.username=/ s/=.* /=testuser1/" prpcServiceUtils.properties
+        sed -i "/pega.rest.password=/ s/=.* /=Chilli@123/" prpcServiceUtils.properties
+        sed -i "/pega.rest.response.type=/ s/=.* /=json/" prpcServiceUtils.properties
+        sed -i "/export.applicationVersion=/ s/=.* /=01.01.01/" prpcServiceUtils.properties
+        sed -i "/export.applicationName=/ s/=.* /=MyAuto/" prpcServiceUtils.properties
+        sed -i "/export.async=/ s/=.* /=false/" prpcServiceUtils.properties
+        chmod 711 ./../bin/ant        
         bash ./prpcServiceUtils.sh export
         
