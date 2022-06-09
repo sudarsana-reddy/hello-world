@@ -34,7 +34,7 @@ jobs:
         unzip prpc87.zip -d prpc87           
         cd prpc87
         ls
-        chmod 711 scripts
         cd scripts/utils
+        chmod 711 ./../bin/ant
         bash ./prpcServiceUtils.sh export
         
