@@ -35,13 +35,13 @@ jobs:
         cd prpc87
         ls
         cd scripts/utils
-        sed -i "/pega.rest.server.url=/ s/=.* /=https://o5svbhlt.pegace.net/prweb/PRRestService//" prpcServiceUtils.properties
-        sed -i "/pega.rest.username=/ s/=.* /=testuser1/" prpcServiceUtils.properties
-        sed -i "/pega.rest.password=/ s/=.* /=Chilli@123/" prpcServiceUtils.properties
-        sed -i "/pega.rest.response.type=/ s/=.* /=json/" prpcServiceUtils.properties
-        sed -i "/export.applicationVersion=/ s/=.* /=01.01.01/" prpcServiceUtils.properties
-        sed -i "/export.applicationName=/ s/=.* /=MyAuto/" prpcServiceUtils.properties
-        sed -i "/export.async=/ s/=.* /=false/" prpcServiceUtils.properties
+        sed -i -r "s#(pega.rest.server.url=)(.*)#\1https://o5svbhlt.pegace.net/prweb/PRRestService/#" prpcServiceUtils.properties
+        sed -i -r "s#(pega.rest.username=)(.*)#\1testuser1#" prpcServiceUtils.properties
+        sed -i -r "s#(pega.rest.password=)(.*)#\1Chilli@123#" prpcServiceUtils.properties
+        sed -i -r "s#(pega.rest.response.type=)(.*)#\1json#" prpcServiceUtils.properties
+        sed -i -r "s#(export.applicationVersion=)(.*)#\101.01.01#" prpcServiceUtils.properties
+        sed -i -r "s#(export.applicationName=)(.*)#\1MyAuto#" prpcServiceUtils.properties
+        sed -i -r "s#(export.async=)(.*)#\1false#" prpcServiceUtils.properties
         chmod 711 ./../bin/ant        
         bash ./prpcServiceUtils.sh export
         
