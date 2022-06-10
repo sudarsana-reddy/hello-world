@@ -62,5 +62,16 @@ jobs:
         ls
         cd artifacts
         ls
+        cd ..
+        
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        # Artifact name
+        name: MyDMSample-Artifacts
+        # A file, directory or wildcard pattern that describes what to upload
+        path: ./prpc87/scripts/utils/articats
+       
+  
         
         
