@@ -44,6 +44,8 @@ jobs:
         sed -i -r "s#(export.applicationVersion=)(.*)#\1${{secrets.PEGA_APPLICATION_VERSION}}#" prpcServiceUtils.properties
         sed -i -r "s#(export.applicationName=)(.*)#\1${{secrets.PEGA_APPLICATION_NAME}}#" prpcServiceUtils.properties
         sed -i -r "s#(export.async=)(.*)#\1${{secrets.PEGA_API_ASYNC}}#" prpcServiceUtils.properties
+        sed -i -r "s#(export.productVersion=)(.*)##" prpcServiceUtils.properties
+        sed -i -r "s#(export.productName=)(.*)##" prpcServiceUtils.properties
         echo "**********Updating the file completed***************"
         cat prpcServiceUtils.properties
         chmod 711 ./../bin/ant        
