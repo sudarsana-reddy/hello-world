@@ -36,7 +36,7 @@ jobs:
         ls
         cd scripts/utils
         echo "***********************Updating the file *****************************"
-        echo $PEGA_URL
+        echo ${{secrets.PEGA_URL}}
         sed -i -r "s#(pega.rest.server.url=)(.*)#\1$PEGA_URL#" prpcServiceUtils.properties
         sed -i -r "s#(pega.rest.username=)(.*)#\1$PEGA_USERNAME#" prpcServiceUtils.properties
         sed -i -r "s#(pega.rest.password=)(.*)#\1$PEGA_PASSWORD#" prpcServiceUtils.properties
