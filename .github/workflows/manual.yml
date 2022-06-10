@@ -35,7 +35,7 @@ jobs:
         cd prpc87
         ls
         cd scripts/utils
-        echo "Updating the file"
+        echo "***********************Updating the file *****************************"
         sed -i -r "s#(pega.rest.server.url=)(.*)#\1$PEGA_URL#" prpcServiceUtils.properties
         sed -i -r "s#(pega.rest.username=)(.*)#\1$PEGA_USERNAME#" prpcServiceUtils.properties
         sed -i -r "s#(pega.rest.password=)(.*)#\1$PEGA_PASSWORD#" prpcServiceUtils.properties
@@ -43,6 +43,9 @@ jobs:
         sed -i -r "s#(export.applicationVersion=)(.*)#\1$PEGA_APPLICATION_VERSION#" prpcServiceUtils.properties
         sed -i -r "s#(export.applicationName=)(.*)#\1$PEGA_APPLICATION_NAME#" prpcServiceUtils.properties
         sed -i -r "s#(export.async=)(.*)#\1$PEGA_API_ASYNC#" prpcServiceUtils.properties
+        echo "**********Updating the file completed***************"
+        cat prpcServiceUtils.properties
         chmod 711 ./../bin/ant        
+        echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         bash ./prpcServiceUtils.sh export -connPropFile prpcServiceUtils.properties
         
