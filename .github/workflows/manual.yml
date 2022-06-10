@@ -48,5 +48,5 @@ jobs:
         cat prpcServiceUtils.properties
         chmod 711 ./../bin/ant        
         echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        bash ./prpcServiceUtils.sh export -connPropFile prpcServiceUtils.properties
+        bash ./prpcServiceUtils.sh export --propFile prpcServiceUtils.properties
         
