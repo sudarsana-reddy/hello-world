@@ -39,7 +39,7 @@ jobs:
         curl -o prpc87.zip https://d2xbzkyevnvl4b.cloudfront.net/prpcServiceUtils_8.7.zip
         unzip prpc87.zip -d prpc87           
         cd prpc87
-        ls
+        ls        
         cd scripts/utils
         echo "***********************Updating the file *****************************"
         echo ${{secrets.PEGA_URL}}
@@ -54,7 +54,8 @@ jobs:
         sed -i -r "s#(export.productName=)(.*)##" prpcServiceUtils.properties
          sed -i -r "s#(export.archiveName=)(.*)#\1${{env.PEGA_ARCHIVE_NAME}}#" prpcServiceUtils.properties
         echo "**********Updating the file completed***************"      
+        mkdir artifacts
         chmod 711 ./../bin/ant        
         echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        bash ./prpcServiceUtils.sh export --propFile prpcServiceUtils.properties
+        bash ./prpcServiceUtils.sh export --propFile prpcServiceUtils.properties --artifactDir ./artifacts
         
