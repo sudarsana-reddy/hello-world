@@ -21,6 +21,40 @@ on:
         default: 'World'
         # Input has to be provided for the workflow to run
         required: true
+        
+      PEGA_APP_NAME:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'PEGA App Name to export'
+        # Default value if no value is explicitly provided
+        default: 'DMSample'
+        # Input has to be provided for the workflow to run
+        required: true
+        
+      PEGA_APP_VERSION:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'PEGA App Version to export'
+        # Default value if no value is explicitly provided
+        default: '01.01.01'
+        # Input has to be provided for the workflow to run
+        required: true
+        
+      PEGA_ARCHIVE_NAME:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'PEGA App exported file name'
+        # Default value if no value is explicitly provided
+        default: 'MyDMSample.zip'
+        # Input has to be provided for the workflow to run
+        required: true
+        
+      PEGA_API_ASYNC:
+        # Friendly description to be shown in the UI instead of 'name'
+        description: 'Async Pega API?'
+        # Default value if no value is explicitly provided
+        default: false
+        # Input has to be provided for the workflow to run
+        required: true
+        
+     
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -48,7 +82,7 @@ jobs:
         sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_PASSWORD}}#" prpcServiceUtils.properties
         sed -i -r "s#(pega.rest.response.type=)(.*)#\1${{secrets.PEGA_REST_RESPONSE_TYPE}}#" prpcServiceUtils.properties
         sed -i -r "s#(export.applicationVersion=)(.*)#\1${{env.PEGA_APP_VERSION}}#" prpcServiceUtils.properties
-        sed -i -r "s#(export.applicationName=)(.*)#\1${{env.PEGA_APP_NAME}}#" prpcServiceUtils.properties
+        sed -i -r "s#(export.applicationName=)(.*)#\1${{github.event.inputs.PEGA_APP_NAME}}#" prpcServiceUtils.properties
         sed -i -r "s#(export.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" prpcServiceUtils.properties
         sed -i -r "s#(export.productVersion=)(.*)##" prpcServiceUtils.properties
         sed -i -r "s#(export.productName=)(.*)##" prpcServiceUtils.properties
