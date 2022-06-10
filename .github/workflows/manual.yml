@@ -6,6 +6,7 @@ env:
   PEGA_APP_NAME: DMSample
   PEGA_APP_VERSION: 01.01.01
   PEGA_API_ASYNC: false
+  PEGA_ARCHIVE_NAME: MyDMSample.zip
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
@@ -51,6 +52,7 @@ jobs:
         sed -i -r "s#(export.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" prpcServiceUtils.properties
         sed -i -r "s#(export.productVersion=)(.*)##" prpcServiceUtils.properties
         sed -i -r "s#(export.productName=)(.*)##" prpcServiceUtils.properties
+         sed -i -r "s#(export.archiveName=)(.*)#\1${{env.PEGA_ARCHIVE_NAME}}#" prpcServiceUtils.properties
         echo "**********Updating the file completed***************"      
         chmod 711 ./../bin/ant        
         echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
