@@ -2,6 +2,9 @@
 
 name: Manual workflow
 
+on:
+  repository_dispatch
+
 env:
   PEGA_APP_NAME: DMSample
   PEGA_APP_VERSION: 01.01.01
