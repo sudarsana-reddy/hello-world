@@ -13,51 +13,7 @@ env:
 on:
   repository_dispatch:
     types: [greet]
-  workflow_dispatch:
-    # Inputs the workflow accepts.
-    inputs:
-      name:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Person to greet'
-        # Default value if no value is explicitly provided
-        default: 'World'
-        # Input has to be provided for the workflow to run
-        required: true
-        
-      PEGA_APP_NAME:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'PEGA App Name to export'
-        # Default value if no value is explicitly provided
-        default: 'DMSample'
-        # Input has to be provided for the workflow to run
-        required: true
-        
-      PEGA_APP_VERSION:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'PEGA App Version to export'
-        # Default value if no value is explicitly provided
-        default: '01.01.01'
-        # Input has to be provided for the workflow to run
-        required: true
-        
-      PEGA_ARCHIVE_NAME:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'PEGA App exported file name'
-        # Default value if no value is explicitly provided
-        default: 'MyDMSample.zip'
-        # Input has to be provided for the workflow to run
-        required: true
-        
-      PEGA_API_ASYNC:
-        # Friendly description to be shown in the UI instead of 'name'
-        description: 'Async Pega API?'
-        # Default value if no value is explicitly provided
-        default: false
-        # Input has to be provided for the workflow to run
-        required: true
-        
-     
-
+      
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "greet"
