@@ -2,10 +2,6 @@
 
 name: Manual workflow
 
-on:
-  repository_dispatch:
-    types: [greet]
-
 env:
   PEGA_APP_NAME: DMSample
   PEGA_APP_VERSION: 01.01.01
@@ -15,6 +11,8 @@ env:
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
 on:
+  repository_dispatch:
+    types: [greet]
   workflow_dispatch:
     # Inputs the workflow accepts.
     inputs:
