@@ -20,11 +20,11 @@ jobs:
       run: |
         echo "******************Getting Auth Token*******************************************"        
          
-        curl_response=$(curl --location --request POST "https://91dc-49-206-33-99.in.ngrok.io/prweb/PRRestService/oauth2/v1/token" \
+        curl_response=$(curl --location --request POST "${{secrets.PEGA_DM_REST_URL}}/oauth2/v1/token" \
                           --header "Content-Type: application/x-www-form-urlencoded" \
                           --header "Accept: application/json" \
-                          --data-urlencode "client_id=68656303360243191598" \
-                          --data-urlencode "client_secret=30DA05D8B9309B96B9B55A5A90680501" \
+                          --data-urlencode "client_id=${{secrets.PEGA_DM_CLIENT_ID}}" \
+                          --data-urlencode "client_secret=${{secrets.PEGA_DM_CLIENT_SECRET}}" \
                           --data-urlencode "grant_type=client_credentials" )  
             
          
@@ -37,7 +37,7 @@ jobs:
         
         echo "######################Getting DM Pipelines######################"
         
-        pipelines=$(curl --location --request GET "https://91dc-49-206-33-99.in.ngrok.io/prweb/PRRestService/DeploymentManager/v1/pipelines" \
+        pipelines=$(curl --location --request GET "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines" \
                  --header "Authorization: Bearer $access_token")
      
         echo "Pipelines: $pipelines"
