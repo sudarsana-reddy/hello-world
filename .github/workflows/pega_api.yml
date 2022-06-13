@@ -31,12 +31,12 @@ jobs:
          
          echo $curl_response
         
-        access_token="$(echo $curl_response | jq -j '.access_token')"
+        access_token=$(echo $curl_response | jq -j ".access_token")
         echo "Access Token: $access_token"
         
         echo "Getting DM Pipelines"
-        pipelines=$(curl --location --request GET 'https://91dc-49-206-33-99.in.ngrok.io/prweb/PRRestService/DeploymentManager/v1/pipelines' \
-                 --header 'Authorization: Bearer $access_token')
+        pipelines=$(curl --location --request GET "https://91dc-49-206-33-99.in.ngrok.io/prweb/PRRestService/DeploymentManager/v1/pipelines" \
+                 --header "Authorization: Bearer $access_token")
      
         echo "Pipelines: $pipelines"
 
