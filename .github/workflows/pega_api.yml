@@ -24,7 +24,7 @@ jobs:
                           --header "Content-Type: application/x-www-form-urlencoded" \
                           --header "Accept: application/json" \
                           --data-urlencode "client_id=68656303360243191598" \
-                          --data-urlencode "client_secret=5AE558DB2A7592EDF50B58C887191D9B" \
+                          --data-urlencode "client_secret=30DA05D8B9309B96B9B55A5A90680501" \
                           --data-urlencode "grant_type=client_credentials" )  
             
          
