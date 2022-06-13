@@ -8,7 +8,7 @@ on: [workflow_dispatch]
       
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "greet"
+  # This workflow contains a single job called "getPegaPipelines"
   getPegaPipelines:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
@@ -18,25 +18,29 @@ jobs:
     # Runs a single command using the runners shell
     - name: Get Pega DM Pipelines
       run: |
-        echo "Getting Auth Token"        
+        echo "******************Getting Auth Token*******************************************"        
          
         curl_response=$(curl --location --request POST "https://91dc-49-206-33-99.in.ngrok.io/prweb/PRRestService/oauth2/v1/token" \
                           --header "Content-Type: application/x-www-form-urlencoded" \
                           --header "Accept: application/json" \
                           --data-urlencode "client_id=68656303360243191598" \
                           --data-urlencode "client_secret=5AE558DB2A7592EDF50B58C887191D9B" \
-                          --data-urlencode "grant_type=client_credentials" )
-        
-         echo "Getting auth token - completed"    
+                          --data-urlencode "grant_type=client_credentials" )  
+            
          
          echo $curl_response
         
         access_token=$(echo $curl_response | jq -j ".access_token")
         echo "Access Token: $access_token"
         
-        echo "Getting DM Pipelines"
+        echo "**************Getting auth token - completed*************************************"
+        
+        echo "######################Getting DM Pipelines######################"
+        
         pipelines=$(curl --location --request GET "https://91dc-49-206-33-99.in.ngrok.io/prweb/PRRestService/DeploymentManager/v1/pipelines" \
                  --header "Authorization: Bearer $access_token")
      
         echo "Pipelines: $pipelines"
+        
+         echo "######################Getting DM Pipelines - Completed######################"
 
