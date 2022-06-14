@@ -18,6 +18,8 @@ jobs:
     # Runs a single command using the runners shell
     - name: Get Pega DM Pipelines
       run: |
+        pwd
+        ls
         echo "******************Getting Auth Token*******************************************"        
          
         curl_response=$(curl --location --request POST "${{secrets.PEGA_DM_REST_URL}}/oauth2/v1/token" \
