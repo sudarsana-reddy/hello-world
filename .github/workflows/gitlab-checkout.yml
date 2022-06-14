@@ -21,26 +21,23 @@ jobs:
         ls
         cd freecodecamp-gitlab-ci
         
-    - name: Install yarn globally
-      run: |
-        pwd
+        echo "Checking npm version"
         npm --version
+        
+        echo "Installing yarn"
         npm install -g yarn
         
-    - name: Build APp
-      run: |
-        pwd
+        echo "Install yarn packages"
         yarn install
+        
+        echo "build app"
         yarn build
         
-    - name: Unit Tests
-      run: |
-        pwd
+        echo "Unit tests"
         yarn test
         
-    - name: Test App
-      run: |
-        pwd
+        echo "test app"
         test -f build/index.html
+        
     
 
