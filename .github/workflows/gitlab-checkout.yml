@@ -19,30 +19,40 @@ jobs:
       run: |
         git clone https://oauth2:${{secrets.GITLAB_TOKEN}}@${{secrets.GITLAB_REPO_URL}}
         ls
-        cd freecodecamp-gitlab-ci
-        
+    - name: Check npm version
+      run: |  
         echo "Checking npm version"
         npm --version
         
+    - name: Installing yarn
+      run: |
+        cd freecodecamp-gitlab-ci
         echo "Installing yarn"
         npm install -g yarn
         
+    - name: Install yarn packages
+      run: |
+        cd freecodecamp-gitlab-ci
         echo "Install yarn packages"
         yarn install
         
+    - name: Build App
+      run: |
+        cd freecodecamp-gitlab-ci
         echo "build app"
         yarn build
         
+    - name: Run Tests
+      run: |
+        cd freecodecamp-gitlab-ci
         echo "Unit tests"
         yarn test
-        
-        echo "test app"
-        test -f build/index.html
     
     - name: test
       run: |
-        pwd
-        ls
+        cd freecodecamp-gitlab-ci
+        echo "test app"
+        test -f build/index.html
    
         
     
