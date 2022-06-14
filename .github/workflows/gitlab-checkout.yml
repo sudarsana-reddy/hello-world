@@ -17,7 +17,7 @@ jobs:
     steps:
     - name: Checkout
       run: |
-        git clone https://oauth2:glpat-ztn95j3-rcszw-8ApkwW@gitlab.com/sudarsana1/freecodecamp-gitlab-ci.git
+        git clone https://oauth2:${{secrets.GITLAB_TOKEN}}@${{secrets.GITLAB_REPO_URL}}
         ls
         cd freecodecamp-gitlab-ci
         
