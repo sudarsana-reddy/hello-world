@@ -22,17 +22,21 @@ jobs:
         cd freecodecamp-gitlab-ci
         
     - name: Install yarn globally
+      run: |
         npm --version
         npm install -g yarn
         
     - name: Build APp
+      run: |
         yarn install
         yarn build
         
-    - name: Unit Tests       
+    - name: Unit Tests
+      run: |
         yarn test
         
-    - name: Test APp
+    - name: Test App
+      run: |
         test -f build/index.html
     
 
