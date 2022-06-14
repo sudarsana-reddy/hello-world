@@ -19,5 +19,7 @@ jobs:
       run: |
         git clone https://oauth2:glpat-ztn95j3-rcszw-8ApkwW@gitlab.com/sudarsana1/freecodecamp-gitlab-ci.git
         ls
+        cd freecodecamp-gitlab-ci
+        ls
     
 
