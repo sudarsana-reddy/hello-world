@@ -38,6 +38,12 @@ jobs:
         
         echo "test app"
         test -f build/index.html
+    
+    - name: test
+      run: |
+        pwd
+        ls
+   
         
     
 
