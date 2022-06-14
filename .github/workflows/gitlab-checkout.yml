@@ -42,18 +42,8 @@ jobs:
         echo "build app"
         yarn build
         
-    - name: Run Tests
+    - name: Run Units Tests
       run: |
         cd freecodecamp-gitlab-ci
         echo "Unit tests"
         yarn test
-    
-    - name: test
-      run: |
-        cd freecodecamp-gitlab-ci
-        echo "test app"
-        test -f build/index.html
-   
-        
-    
-
