@@ -23,20 +23,24 @@ jobs:
         
     - name: Install yarn globally
       run: |
+        pwd
         npm --version
         npm install -g yarn
         
     - name: Build APp
       run: |
+        pwd
         yarn install
         yarn build
         
     - name: Unit Tests
       run: |
+        pwd
         yarn test
         
     - name: Test App
       run: |
+        pwd
         test -f build/index.html
     
 
