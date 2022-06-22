@@ -1,0 +1,26 @@
+name: Share data between jobs
+
+on: [workflow_dispatch]
+
+env:
+  FILE1: a.txt
+  FILE2: b.txt
+
+jobs:
+  add2Files:   
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create 2 Files
+      run: |
+        echo "Creating 2 Files"
+        touch ${{env.FILE1}}
+        echo "first file" >> ${{env.FILE1}}
+        touch ${{env.FILE2}}
+        echo "second file" >> ${{env.FILE2}}
+    - name: Upload files
+      uses: actions/upload-artifact@v3
+      with:
+         name: homework
+         path: |
+           a.txt
+           b.txt
