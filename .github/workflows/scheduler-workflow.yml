@@ -5,6 +5,8 @@ on: [workflow_dispatch]
 env:
   FILE1: a.txt
   FILE2: b.txt
+  ENVIRONMENT_FILE: a.properties
+  ENVIRONMENT: dev
 
 jobs:
   add2Files:   
@@ -17,6 +19,7 @@ jobs:
         echo "first file" >> ${{env.FILE1}}
         touch ${{env.FILE2}}
         echo "second file" >> ${{env.FILE2}}
+        echo "environment=${{env.ENVIRONMENT}}" >> ${{env.ENVIRONMENT_FILE}}
     - name: Upload files
       uses: actions/upload-artifact@v3
       with:
@@ -24,3 +27,4 @@ jobs:
          path: |
            a.txt
            b.txt
+           ${{env.ENVIRONMENT_FILE}}
