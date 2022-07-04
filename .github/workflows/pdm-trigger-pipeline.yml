@@ -41,7 +41,7 @@ jobs:
         
         echo "######################Trigger DM Pipeline######################"
         
-        response=$(curl --location --request POST "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines/${{secrets.Pipeline-QP3IQ}}/deployments" \
+        response=$(curl --location --request POST "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines/Pipeline-QP3IQ/deployments" \
                  --header "Authorization: Bearer $access_token")
      
         echo "Pipelines: $response"
