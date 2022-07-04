@@ -1,0 +1,50 @@
+name: "Pega Deployment -PDM Rest API"
+
+
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on: [workflow_dispatch]
+      
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "getPegaPipelines"
+  getPegaPipelines:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.4.2
+    # Runs a single command using the runners shell
+    - name: Get Pega DM Pipelines
+      run: |
+        pwd
+        ls
+        echo "******************Getting Auth Token*******************************************"        
+         
+        curl_response=$(curl --location --request POST "${{secrets.PEGA_DM_REST_URL}}/oauth2/v1/token" \
+                          --header "Content-Type: application/x-www-form-urlencoded" \
+                          --header "Accept: application/json" \
+                          --data-urlencode "client_id=${{secrets.PEGA_DM_CLIENT_ID}}" \
+                          --data-urlencode "client_secret=${{secrets.PEGA_DM_CLIENT_SECRET}}" \
+                          --data-urlencode "grant_type=client_credentials" )  
+            
+         
+         echo $curl_response
+        
+        access_token=$(echo $curl_response | jq -j ".access_token")
+        echo "Access Token: $access_token"
+        
+        echo "**************Getting auth token - completed*************************************"
+        
+        echo "######################Getting DM Pipelines######################"
+        
+        pipelines=$(curl --location --request GET "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines" \
+                 --header "Authorization: Bearer $access_token")
+     
+        echo "Pipelines: $pipelines"
+        
+         echo "######################Getting DM Pipelines - Completed######################"
+
