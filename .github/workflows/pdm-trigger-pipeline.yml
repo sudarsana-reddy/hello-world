@@ -41,7 +41,7 @@ jobs:
         
         echo "$$$$$$$$$$$$$ Check Any queued deployments"
         
-        queuedDeployments=$(curl --location --request GET "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines/Pipeline-QP3IQ/deployments?fetchQueuedDeployments=true" \
+        queuedDeployments=$(curl --location --request GET "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines/Pipeline-QP3IQ/deployments" \
                       --header "Authorization: Bearer $access_token")
         echo "queuedDeployments: $queuedDeployments"
         statuses=$(echo $queuedDeployments | jq -r ".data[].status")
