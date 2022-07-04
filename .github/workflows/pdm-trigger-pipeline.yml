@@ -20,43 +20,110 @@ jobs:
     # Runs a single command using the runners shell
     - name: Get Pega DM Pipelines
       run: |
-        pwd
-        ls
-        echo "******************Getting Auth Token*******************************************"        
-         
-        curl_response=$(curl --location --request POST "${{secrets.PEGA_DM_REST_URL}}/oauth2/v1/token" \
-                          --header "Content-Type: application/x-www-form-urlencoded" \
-                          --header "Accept: application/json" \
-                          --data-urlencode "client_id=${{secrets.PEGA_DM_CLIENT_ID}}" \
-                          --data-urlencode "client_secret=${{secrets.PEGA_DM_CLIENT_SECRET}}" \
-                          --data-urlencode "grant_type=client_credentials" )  
-            
-         
-         echo $curl_response
-        
-        access_token=$(echo $curl_response | jq -j ".access_token")
-        echo "Access Token: $access_token"
-        
-        echo "**************Getting auth token - completed*************************************"
-        
-        echo "$$$$$$$$$$$$$ Check Any queued deployments"
-        
-        queuedDeployments=$(curl --location --request GET "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines/Pipeline-QP3IQ/deployments" \
-                      --header "Authorization: Bearer $access_token")
-        echo "queuedDeployments: $queuedDeployments"
-        statuses=$(echo $queuedDeployments | jq -r ".data[].status")
-        echo "statuses: $statuses"
-        
-        echo "######################Trigger DM Pipeline######################"
-        
-        response=$(curl --location --request POST "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines/Pipeline-QP3IQ/deployments" \
-                 --header "Authorization: Bearer $access_token")
-     
-        echo "Pipelines: $response"
-        
-        deploymentId=$(echo $response | jq -r ".deploymentID");
-        
-        echo " deploymentId=$deploymentId"
-        
-        echo "######################Getting DM Pipelines - Completed######################"
+            echo "Starting the srcipt"
 
+            is_deployment_complete=false
+            is_deployment_error=false
+            maximum_wait_time=120
+            time_elapse=10
+            PEGA_DM_REST_URL=https://9df7-49-206-60-189.in.ngrok.io/prweb/PRRestService
+            PEGA_DM_CLIENT_ID=68656303360243191598
+            PEGA_DM_CLIENT_SECRET=901D5A3EB1674CB5D3FF3B4E6EED25A6
+            PEGA_PIEPLINE_ID=Pipeline-QP3IQ
+
+            echo "Triggering pipeline for $PEGA_PIEPLINE_ID"
+
+            echo "Getting access token"
+            token_response=$(curl --location --request POST "$PEGA_DM_REST_URL/oauth2/v1/token" \
+                                      --header "Content-Type: application/x-www-form-urlencoded" \
+                                      --header "Accept: application/json" \
+                                      --data-urlencode "client_id=$PEGA_DM_CLIENT_ID" \
+                                      --data-urlencode "client_secret=$PEGA_DM_CLIENT_SECRET" \
+                                      --data-urlencode "grant_type=client_credentials" )
+
+            access_token=$(echo $token_response | jq -j ".access_token")	
+            echo "token:$access_token"
+
+            echo "Triggering Deployment API"
+            deployment=$(curl --location --request POST "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID/deployments"  --header "Authorization: Bearer $access_token")
+            echo "deployment: $deployment"
+            deploymentId=$(echo $deployment | jq -r ".deploymentID");        
+            echo "deploymentId=$deploymentId"
+            deployment_satus_response=""
+            deployment_satus=""
+
+
+            while [[ "$is_deployment_complete" -eq "false" && "$is_deployment_error" -eq "false" && $maximum_wait_time -gt $time_elapse ]];
+
+            do
+                echo "Sleeping for 10 seconds"
+                sleep 10;
+
+                echo "Getting access token"
+                token_response=$(curl --location --request POST "$PEGA_DM_REST_URL/oauth2/v1/token" \
+                                      --header "Content-Type: application/x-www-form-urlencoded" \
+                                      --header "Accept: application/json" \
+                                      --data-urlencode "client_id=$PEGA_DM_CLIENT_ID" \
+                                      --data-urlencode "client_secret=$PEGA_DM_CLIENT_SECRET" \
+                                      --data-urlencode "grant_type=client_credentials" )
+
+                  access_token=$(echo $token_response | jq -j ".access_token")	
+                  echo "token:$access_token"
+
+                  echo "---------------------Getting Deployment Status---------------------"
+                  deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
+                  deployment_satus=$(echo $deployment_satus_response | jq -r ".status")
+                  echo "deployment_satus: $deployment_satus"		
+
+
+                if [[ "$deployment_satus" == "Resolved-"* ]]  
+                  then
+                    echo "The Deployment is completed" 
+                    is_deployment_complete=true 
+                    break
+                elif [[ "$deployment_satus" == *"Error"* ]] 
+                then
+                  echo "Deployment Error"	
+                    is_deployment_error=true
+                    break
+                else 
+                    echo Waiting...	 
+                    ((time_elapse+=10))	 
+                fi	
+
+                echo "is_deployment_complete: $is_deployment_complete"
+                  echo "is_deployment_error: $is_deployment_error"
+                  echo "time_elapse: $time_elapse"
+            done
+
+            echo "Deployment Status: $deployment_satus"
+
+            if [[ "$deployment_satus" == "Resolved-"* ]]    
+            then
+              echo "***************Deployment Completed****************"   
+            elif [[ "$deployment_satus" == *"Error"* ]]
+            then
+              errors=$(echo $deployment_satus_response | jq -r '.taskList[] | select(.status | contains("Resolved-Completed")| not)' | jq -r '.errors[].errorMessage')
+              echo "The Errors are: $errors"
+              echo "#############Aborting the Deployment as there is error#############"
+              echo "Getting access token"
+              token_response=$(curl --location --request POST "$PEGA_DM_REST_URL/oauth2/v1/token" \
+                                      --header "Content-Type: application/x-www-form-urlencoded" \
+                                      --header "Accept: application/json" \
+                                      --data-urlencode "client_id=$PEGA_DM_CLIENT_ID" \
+                                      --data-urlencode "client_secret=$PEGA_DM_CLIENT_SECRET" \
+                                      --data-urlencode "grant_type=client_credentials" )
+
+              access_token=$(echo $token_response | jq -j ".access_token")	
+              echo "token:$access_token"
+              abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
+                                 --header "Authorization: Bearer $access_token" \
+                                           --data-raw '{ "reasonForAbort": "Build got errored out." }')
+              echo "Abort Response: $abort_response"
+              status=$(echo $abort_response | jq -r ".status")
+              echo "Abort Status: $status"  
+            else
+              echo "#############Deployment is Not Completed, Check the status#############"
+            fi	
+
+       
