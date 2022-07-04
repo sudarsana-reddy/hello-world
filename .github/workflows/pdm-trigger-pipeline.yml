@@ -39,12 +39,12 @@ jobs:
         
         echo "**************Getting auth token - completed*************************************"
         
-        echo "######################Getting DM Pipelines######################"
+        echo "######################Trigger DM Pipeline######################"
         
-        pipelines=$(curl --location --request GET "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines" \
+        response=$(curl --location --request GET "${{secrets.PEGA_DM_REST_URL}}/DeploymentManager/v1/pipelines/${{secrets.Pipeline-QP3IQ}}/deployments" \
                  --header "Authorization: Bearer $access_token")
      
-        echo "Pipelines: $pipelines"
+        echo "Pipelines: $response"
         
          echo "######################Getting DM Pipelines - Completed######################"
 
