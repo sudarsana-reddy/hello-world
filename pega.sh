@@ -48,6 +48,7 @@ function triggerDeployment() {
 
 # Abort the deployment on error
 function abortDeployment() {
+  sleep $WAIT_INTERVAL_TIME # REMOVE THIS AFTER TESTING
   errors=$(echo $deployment_satus_response | jq -r '.taskList[] | select(.status | contains("Resolved-Completed")| not)' | jq -r '.errors[].errorMessage')
   echo "The Errors are: $errors"
   echo "#############Aborting the Deployment as there is error#############"  
@@ -76,7 +77,7 @@ function abortDeployment() {
 function waitForDeploymentToComplete() {
   while [[ "$is_development_complete" -eq "false" && "$is_development_error" -eq "false" && $THRESHOLD_WAIT_TIME -gt $wait_time_elapsed ]];
   do
-    echo "Waiting for 10 seconds"
+    echo "Waiting for 180 seconds"
     sleep $WAIT_INTERVAL_TIME;   
 	
     echo "---------------------Getting Deployment Status---------------------"
