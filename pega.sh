@@ -45,16 +45,22 @@ function waitForDeploymentToComplete() {
 
   do
     echo "Sleeping for 10 seconds"
-    sleep 10;
-
-    echo "Getting access token"
-    getAccessToken
+    sleep 10;   
 	
 	echo "---------------------Getting Deployment Status---------------------"
 	deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
+	
+	#Check for token expiry
+	invalid_token=$(echo $deployment_satus_response | jq -r '.errors[].ID')
+	if [[ $invalid_token == "invalid_token"]]
+	then	
+	   echo "Token Expired. Getting new access token"
+       getAccessToken
+	   deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
+    fi
+    
 	deployment_satus=$(echo $deployment_satus_response | jq -r ".status")
-	echo "deployment_satus: $deployment_satus"		
-
+	echo "deployment_satus: $deployment_satus"     
 
     if [[ "$deployment_satus" == "Resolved-"* ]]  
 	then
@@ -95,7 +101,7 @@ function abortDeployment() {
   echo "The Errors are: $errors"
   echo "#############Aborting the Deployment as there is error#############"
   echo "Getting access token"
-  token_response="$(getAccessToken)"
+  getAccessToken
   echo "token:$access_token"
   abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
                      --header "Authorization: Bearer $access_token" \
@@ -112,3 +118,4 @@ echo "deploymentId: $deploymentId"
 
 echo "Wait For Deployment to complete"
 waitForDeploymentToComplete
+
