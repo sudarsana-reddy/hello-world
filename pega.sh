@@ -32,6 +32,7 @@ function getAccessToken() {
     echo "$access_token"
 }
 
+
 # Trigger a deployment through PDM Rest API
 function triggerDeployment() {
   
@@ -44,6 +45,32 @@ function triggerDeployment() {
   deploymentId=$(echo $deployment | jq -r ".deploymentID")  
   echo "$deploymentId"
 }
+
+# Abort the deployment on error
+function abortDeployment() {
+  errors=$(echo $deployment_satus_response | jq -r '.taskList[] | select(.status | contains("Resolved-Completed")| not)' | jq -r '.errors[].errorMessage')
+  echo "The Errors are: $errors"
+  echo "#############Aborting the Deployment as there is error#############"  
+  abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
+                     --header "Authorization: Bearer $access_token" \
+		     --data-raw '{ "reasonForAbort": "Build got errored out." }')
+  
+  #Check for token expiry
+  invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
+  if [[ "$invalid_token" == "invalid_token" ]]
+  then
+    echo "Token Expired. Getting new access token"
+    getAccessToken
+    abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
+                     --header "Authorization: Bearer $access_token" \
+		     --data-raw '{ "reasonForAbort": "Build got errored out." }')
+  fi
+  
+  echo "Abort Response: $abort_response"
+  status=$(echo $abort_response | jq -r ".status")
+  echo "Abort Status: $status"  
+}
+
 
 # Wait for the deployment to complete or error out
 function waitForDeploymentToComplete() {
@@ -61,6 +88,7 @@ function waitForDeploymentToComplete() {
     then	
        echo "Token Expired. Getting new access token"
        getAccessToken
+       echo "---------------------Getting Deployment Status---------------------"
        deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
      fi
      
@@ -101,31 +129,6 @@ function waitForDeploymentToComplete() {
 
 }
 
-
-# Abort the deployment on error
-function abortDeployment() {
-  errors=$(echo $deployment_satus_response | jq -r '.taskList[] | select(.status | contains("Resolved-Completed")| not)' | jq -r '.errors[].errorMessage')
-  echo "The Errors are: $errors"
-  echo "#############Aborting the Deployment as there is error#############"  
-  abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
-                     --header "Authorization: Bearer $access_token" \
-		     --data-raw '{ "reasonForAbort": "Build got errored out." }')
-  
-  #Check for token expiry
-  invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
-  if [[ "$invalid_token" == "invalid_token" ]]
-  then
-    echo "Token Expired. Getting new access token"
-    getAccessToken
-    abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
-                     --header "Authorization: Bearer $access_token" \
-		     --data-raw '{ "reasonForAbort": "Build got errored out." }')
-  fi
-  
-  echo "Abort Response: $abort_response"
-  status=$(echo $abort_response | jq -r ".status")
-  echo "Abort Status: $status"  
-}
 
 # Main Script
 echo "Triggering pipeline for $PEGA_PIEPLINE_ID"
