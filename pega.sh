@@ -52,7 +52,7 @@ function waitForDeploymentToComplete() {
 	
     #Check for token expiry
     invalid_token=$(echo $deployment_satus_response | jq -r '.errors[].ID')
-    if [[ $invalid_token == "invalid_token"]]
+    if [[ $invalid_token == "invalid_token" ]]
     then	
        echo "Token Expired. Getting new access token"
        getAccessToken
