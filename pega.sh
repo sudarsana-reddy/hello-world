@@ -47,20 +47,20 @@ function waitForDeploymentToComplete() {
     echo "Sleeping for 10 seconds"
     sleep 10;   
 	
-	echo "---------------------Getting Deployment Status---------------------"
-	deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
+    echo "---------------------Getting Deployment Status---------------------"
+    deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
 	
-	#Check for token expiry
-	invalid_token=$(echo $deployment_satus_response | jq -r '.errors[].ID')
-	if [[ $invalid_token == "invalid_token"]]
-	then	
-	   echo "Token Expired. Getting new access token"
+    #Check for token expiry
+    invalid_token=$(echo $deployment_satus_response | jq -r '.errors[].ID')
+    if [[ $invalid_token == "invalid_token"]]
+    then	
+       echo "Token Expired. Getting new access token"
        getAccessToken
-	   deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
-    fi
-    
-	deployment_satus=$(echo $deployment_satus_response | jq -r ".status")
-	echo "deployment_satus: $deployment_satus"     
+       deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
+     fi
+     
+     deployment_satus=$(echo $deployment_satus_response | jq -r ".status")
+     echo "deployment_satus: $deployment_satus"     
 
     if [[ "$deployment_satus" == "Resolved-"* ]]  
 	then
