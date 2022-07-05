@@ -110,7 +110,7 @@ function abortDeployment() {
   #Check for token expiry
   invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
   if [[ $invalid_token == "invalid_token"]]
-  then	
+  then
     echo "Token Expired. Getting new access token"
     getAccessToken
     abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
