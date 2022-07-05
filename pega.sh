@@ -16,6 +16,7 @@ deployment_satus_response=""
 deployment_satus=""
 deploymentId=""
 
+# Get Access Token
 function getAccessToken() {
    token_response=$(curl --location --request POST "$PEGA_DM_REST_URL/oauth2/v1/token" \
                           --header "Content-Type: application/x-www-form-urlencoded" \
@@ -28,6 +29,7 @@ function getAccessToken() {
     echo "$access_token"
 }
 
+# Trigger a deployment through PDM Rest API
 function triggerDeployment() {
   
   echo "Getting access token"
@@ -40,10 +42,11 @@ function triggerDeployment() {
   echo "$deploymentId"
 }
 
+# Wait for the deployment to complete or error out
 function waitForDeploymentToComplete() {
   while [[ "$is_deployment_complete" -eq "false" && "$is_deployment_error" -eq "false" && $maximum_wait_time -gt $time_elapse ]];
   do
-    echo "Sleeping for 10 seconds"
+    echo "Waiting for 10 seconds"
     sleep 10;   
 	
     echo "---------------------Getting Deployment Status---------------------"
@@ -71,14 +74,13 @@ function waitForDeploymentToComplete() {
       echo "Deployment Error"	
       is_deployment_error=true
       break
-    else 
-      echo Waiting...	 
+    else        
       ((time_elapse+=10))	 
     fi	
 	
-  echo "is_deployment_complete: $is_deployment_complete"
-	echo "is_deployment_error: $is_deployment_error"
-	echo "time_elapse: $time_elapse"
+    echo "is_deployment_complete: $is_deployment_complete"
+	  echo "is_deployment_error: $is_deployment_error"
+	  echo "time_elapse: $time_elapse"
   done
 
   echo "Deployment Status: $deployment_satus"
@@ -95,6 +97,8 @@ function waitForDeploymentToComplete() {
 
 }
 
+
+# Abort the deployment on error
 function abortDeployment() {
   errors=$(echo $deployment_satus_response | jq -r '.taskList[] | select(.status | contains("Resolved-Completed")| not)' | jq -r '.errors[].errorMessage')
   echo "The Errors are: $errors"
@@ -119,7 +123,7 @@ function abortDeployment() {
   echo "Abort Status: $status"  
 }
 
-
+# Main Script
 echo "Triggering pipeline for $PEGA_PIEPLINE_ID"
 triggerDeployment
 echo "deploymentId: $deploymentId"
