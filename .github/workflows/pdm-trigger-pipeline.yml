@@ -17,8 +17,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2.4.2
+
     # Runs a single command using the runners shell
-    - name: Get Pega DM Pipelines
+    - name: Trigger DM Pipeline
       env:
         PEGA_PIPELINE_ID: Pipeline-QP3IQ
       run: |
