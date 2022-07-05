@@ -23,7 +23,7 @@ function getAccessToken() {
                           --data-urlencode "client_id=$PEGA_DM_CLIENT_ID" \
                           --data-urlencode "client_secret=$PEGA_DM_CLIENT_SECRET" \
                           --data-urlencode "grant_type=client_credentials" )
-						  
+		
     access_token=$(echo $token_response | jq -j ".access_token")	
     echo "$access_token"
 }
@@ -42,7 +42,6 @@ function triggerDeployment() {
 
 function waitForDeploymentToComplete() {
   while [[ "$is_deployment_complete" -eq "false" && "$is_deployment_error" -eq "false" && $maximum_wait_time -gt $time_elapse ]];
-
   do
     echo "Sleeping for 10 seconds"
     sleep 10;   
@@ -77,7 +76,7 @@ function waitForDeploymentToComplete() {
       ((time_elapse+=10))	 
     fi	
 	
-    echo "is_deployment_complete: $is_deployment_complete"
+  echo "is_deployment_complete: $is_deployment_complete"
 	echo "is_deployment_error: $is_deployment_error"
 	echo "time_elapse: $time_elapse"
   done
