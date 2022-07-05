@@ -47,8 +47,7 @@ function triggerDeployment() {
 }
 
 # Abort the deployment on error
-function abortDeployment() {
-  sleep $WAIT_INTERVAL_TIME # REMOVE THIS AFTER TESTING
+function abortDeployment() { 
   errors=$(echo $deployment_satus_response | jq -r '.taskList[] | select(.status | contains("Resolved-Completed")| not)' | jq -r '.errors[].errorMessage')
   echo "The Errors are: $errors"
   echo "#############Aborting the Deployment as there is error#############"  
