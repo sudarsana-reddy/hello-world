@@ -69,6 +69,7 @@ function abortDeployment() {
   echo "Abort Response: $abort_response"
   status=$(echo $abort_response | jq -r ".status")
   echo "Abort Status: $status"  
+  exit 1
 }
 
 
