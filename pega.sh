@@ -9,7 +9,7 @@ PEGA_PIEPLINE_ID=$4
 
 #GLOBAL VARIABLES - CONSTANTS
 THRESHOLD_WAIT_TIME=120
-WAIT_INTERVAL_TIME=180
+WAIT_INTERVAL_TIME=60
 
 # global variables
 wait_time_elapsed=0
@@ -76,7 +76,7 @@ function abortDeployment() {
 function waitForDeploymentToComplete() {
   while [[ "$is_development_complete" -eq "false" && "$is_development_error" -eq "false" && $THRESHOLD_WAIT_TIME -gt $wait_time_elapsed ]];
   do
-    echo "Waiting for 180 seconds"
+    echo "Waiting for $WAIT_INTERVAL_TIME seconds"
     sleep $WAIT_INTERVAL_TIME;   
 	
     echo "---------------------Getting Deployment Status---------------------"
