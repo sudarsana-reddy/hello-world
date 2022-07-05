@@ -108,7 +108,7 @@ function abortDeployment() {
   
   #Check for token expiry
   invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
-  if [[ "$invalid_token" == "invalid_token"]]
+  if [[ "$invalid_token" == "invalid_token" ]]
   then
     echo "Token Expired. Getting new access token"
     getAccessToken
