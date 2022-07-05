@@ -105,7 +105,19 @@ function abortDeployment() {
   echo "token:$access_token"
   abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
                      --header "Authorization: Bearer $access_token" \
-					 --data-raw '{ "reasonForAbort": "Build got errored out." }')
+		     --data-raw '{ "reasonForAbort": "Build got errored out." }')
+  
+  #Check for token expiry
+  invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
+  if [[ $invalid_token == "invalid_token"]]
+  then	
+    echo "Token Expired. Getting new access token"
+    getAccessToken
+    abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
+                     --header "Authorization: Bearer $access_token" \
+		     --data-raw '{ "reasonForAbort": "Build got errored out." }')
+  fi
+  
   echo "Abort Response: $abort_response"
   status=$(echo $abort_response | jq -r ".status")
   echo "Abort Status: $status"  
