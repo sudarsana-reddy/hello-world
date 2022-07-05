@@ -7,11 +7,14 @@ PEGA_DM_CLIENT_ID=$2
 PEGA_DM_CLIENT_SECRET=$3
 PEGA_PIEPLINE_ID=$4
 
-#GLOBAL VARIABLES
-is_deployment_complete=false
-is_deployment_error=false
-maximum_wait_time=120
-time_elapse=10
+#GLOBAL VARIABLES - CONSTANTS
+THRESHOLD_WAIT_TIME=120
+WAIT_INTERVAL_TIME=180
+
+# global variables
+wait_time_elapsed=0
+is_development_complete=false
+is_development_error=false
 deployment_satus_response=""
 deployment_satus=""
 deploymentId=""
@@ -44,10 +47,10 @@ function triggerDeployment() {
 
 # Wait for the deployment to complete or error out
 function waitForDeploymentToComplete() {
-  while [[ "$is_deployment_complete" -eq "false" && "$is_deployment_error" -eq "false" && $maximum_wait_time -gt $time_elapse ]];
+  while [[ "$is_development_complete" -eq "false" && "$is_development_error" -eq "false" && $THRESHOLD_WAIT_TIME -gt $wait_time_elapsed ]];
   do
     echo "Waiting for 10 seconds"
-    sleep 10;   
+    sleep $WAIT_INTERVAL_TIME;   
 	
     echo "---------------------Getting Deployment Status---------------------"
     deployment_satus_response=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId"  --header "Authorization: Bearer $access_token")
@@ -67,20 +70,21 @@ function waitForDeploymentToComplete() {
     if [[ "$deployment_satus" == "Resolved-"* ]]  
     then
        echo "The Deployment is completed" 
-       is_deployment_complete=true 
+       is_development_complete=true 
        break
     elif [[ "$deployment_satus" == *"Error"* ]] 
     then
       echo "Deployment Error"	
-      is_deployment_error=true
+      is_development_error=true
       break
-    else        
-      ((time_elapse+=10))	 
+    else       
+       
+      ((wait_time_elapsed+=$WAIT_INTERVAL_TIME))	 
     fi	
 	
-    echo "is_deployment_complete: $is_deployment_complete"
-	  echo "is_deployment_error: $is_deployment_error"
-	  echo "time_elapse: $time_elapse"
+    echo "is_development_complete: $is_development_complete"
+	  echo "is_development_error: $is_development_error"
+	  echo "wait_time_elapsed: $wait_time_elapsed"
   done
 
   echo "Deployment Status: $deployment_satus"
