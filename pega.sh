@@ -63,18 +63,18 @@ function waitForDeploymentToComplete() {
      echo "deployment_satus: $deployment_satus"     
 
     if [[ "$deployment_satus" == "Resolved-"* ]]  
-	then
-	  echo "The Deployment is completed" 
-	  is_deployment_complete=true 
-	  break
+    then
+       echo "The Deployment is completed" 
+       is_deployment_complete=true 
+       break
     elif [[ "$deployment_satus" == *"Error"* ]] 
     then
       echo "Deployment Error"	
-	  is_deployment_error=true
-	  break
+      is_deployment_error=true
+      break
     else 
-	  echo Waiting...	 
-	  ((time_elapse+=10))	 
+      echo Waiting...	 
+      ((time_elapse+=10))	 
     fi	
 	
     echo "is_deployment_complete: $is_deployment_complete"
