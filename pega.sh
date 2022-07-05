@@ -98,10 +98,7 @@ function waitForDeploymentToComplete() {
 function abortDeployment() {
   errors=$(echo $deployment_satus_response | jq -r '.taskList[] | select(.status | contains("Resolved-Completed")| not)' | jq -r '.errors[].errorMessage')
   echo "The Errors are: $errors"
-  echo "#############Aborting the Deployment as there is error#############"
-  echo "Getting access token"
-  getAccessToken
-  echo "token:$access_token"
+  echo "#############Aborting the Deployment as there is error#############"  
   abort_response=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/deployments/$deploymentId/abort" \
                      --header "Authorization: Bearer $access_token" \
 		     --data-raw '{ "reasonForAbort": "Build got errored out." }')
