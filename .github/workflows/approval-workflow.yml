@@ -1,11 +1,10 @@
-name: Share data between jobs
-
-runs-on: ubuntu-latest
+name: Approval Gitgub Actions
 
 on: [workflow_dispatch]
 
 jobs:
   dev_plan:
+    runs-on: ubuntu-latest
     name: Add 3 and 7    
     environment: dev
     steps:
@@ -20,8 +19,9 @@ jobs:
           path: math-homework.txt
 
   job_2:
+    runs-on: ubuntu-latest
     name: Multiply by 9
-    needs: job_1   
+    needs: dev_plan   
     steps:
       - name: Download math result for job 1
         uses: actions/download-artifact@v3
@@ -39,6 +39,7 @@ jobs:
           path: math-homework.txt
 
   job_3:
+    runs-on: ubuntu-latest
     name: Display results
     needs: job_2  
     environment: dev      
