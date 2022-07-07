@@ -39,6 +39,7 @@ jobs:
     name: Display results
     needs: job_2
     runs-on: macOS-latest
+    environment: dev      
     steps:
       - name: Download math result for job 2
         uses: actions/download-artifact@v3
