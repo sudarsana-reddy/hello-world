@@ -6,7 +6,7 @@ on:
       FILE1:
         description: File Name 
         required: true
-        default: nothing
+        default: a.txt
 
 env:
 #   FILE1: a.txt
