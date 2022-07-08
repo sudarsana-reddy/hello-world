@@ -1,9 +1,15 @@
 name: Scheduler TestFlow
 
-on: [workflow_dispatch]
+on: 
+  workflow_dispatch:
+    inputs:
+      FILE1:
+        description: File Name 
+        required: true
+        default: nothing
 
 env:
-  FILE1: a.txt
+#   FILE1: a.txt
   FILE2: b.txt
   ENVIRONMENT_FILE: a.properties
   ENVIRONMENT: dev
@@ -16,7 +22,7 @@ jobs:
       run: |
         echo "Creating 2 Files"
         touch ${{env.FILE1}}
-        echo "first file" >> ${{env.FILE1}}
+        echo "first file" >> ${{inputs.FILE1}}
         touch ${{env.FILE2}}
         echo "second file" >> ${{env.FILE2}}
         echo "environment=${{env.ENVIRONMENT}}" >> ${{env.ENVIRONMENT_FILE}}
