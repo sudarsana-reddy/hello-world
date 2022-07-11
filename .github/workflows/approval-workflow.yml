@@ -10,6 +10,7 @@ jobs:
     steps:
       - shell: bash
         run: |
+          echo "Env secret: ${{secrets.ENV_SECRET}}"
           expr 3 + 7 > math-homework.txt
           hostname
       - name: Upload math result for job 1
