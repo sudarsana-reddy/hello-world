@@ -39,6 +39,7 @@ function getAccessToken() {
 
 # Get Pipeline Data
 function getPipelineData() {
+  getAccessToken
   echo "Getting the Pipeline Data for $PEGA_PIEPLINE_ID"
   pipelineData=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token")
   echo "PipelineData: $pipelineData"
