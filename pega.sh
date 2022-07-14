@@ -58,12 +58,12 @@ function updatePipelineData() {
   getPipelineData
 
   echo "Updating the Pipeline Data for $PEGA_PIEPLINE_ID"
-  productVersion=$(echo $response | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
+  productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
   echo $productVersion | jq
-  productName=$(echo $response | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
+  productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
   echo $productName | jq
 
-  responseWithNoVersion=$(echo $response | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))')
+  responseWithNoVersion=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))')
   echo $responseWithNoVersion | jq
   responseWithNoVersionAnaName=$(echo $responseWithNoVersion | jq 'del(.pipelineParameters[] | select(.name == "productName"))')
   echo $responseWithNoVersionAnaName | jq
