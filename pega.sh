@@ -49,7 +49,8 @@ function getPipelineData() {
     echo "Token Expired. Getting new access token"
     getAccessToken
     pipelineData=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token")
-    echo "PipelineData: $pipelineData"
+    echo "PipelineData:"
+    echo $PipelineData | jq
   fi
 }
 
@@ -57,14 +58,14 @@ function getPipelineData() {
 function updatePipelineData() {
   getPipelineData
 
-  updateRequired=0
+  updateRequired=false
   echo "Updating the Pipeline Data for $PEGA_PIEPLINE_ID"
   existingProductVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
   existingProductName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
 
   if [[ $existingProductVersion != "$PEGA_PROD_VERSION" ]]; then
-    updateRequired=1
-    echo "Existing and Required Versions are Not Equal. Updating the product version"
+    updateRequired=true
+    echo "Existing $existingProductVersion and Required $PEGA_PROD_VERSION Versions are Not Equal. Updating the product version"
     productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
     echo "Updated Product Version"
     echo $productVersion | jq
@@ -75,8 +76,8 @@ function updatePipelineData() {
   fi
 
   if [[ $existingProductName != "$PEGA_PROD_NAME" ]]; then
-    updateRequired=1
-    echo "not Equals updating the product name"
+    updateRequired=true
+    echo "Existing $existingProductName and Required $PEGA_PROD_NAME Versions are Not Equal. Updating the product version"
     productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
     echo "Updated Product Name"
     echo $productName | jq
@@ -86,7 +87,7 @@ function updatePipelineData() {
     echo "There is no Change In Product Name. Not Updating the Name."
   fi
 
-  if [[ $updateRequired -eq 1 ]]; then
+  if [[ "$updateRequired" == "true" ]]; then
     echo "Update Require. Update request with: $pipelineData"
     echo $pipelineData | jq >>temp.json
     updatedPipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "$(cat ./temp.json | grep -v '^\s*//')")
