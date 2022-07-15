@@ -63,20 +63,20 @@ function updatePipelineData() {
   existingProductName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
 
   if [[ $existingProductVersion != "$PEGA_PROD_VERSION" ]]; then
-    updateRequired=1;
-    echo "Existing and Required Versions are Not Equal. Updating the product version";
+    updateRequired=1
+    echo "Existing and Required Versions are Not Equal. Updating the product version"
     productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
     echo "Updated Product Version"
     echo $productVersion | jq
-    pipelineData=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))') 
-    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productVersion]") 
+    pipelineData=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))')
+    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productVersion]")
   else
     echo "There is no Change In Product Version. Not Updating the Version."
   fi
 
   if [[ $existingProductName != "$PEGA_PROD_NAME" ]]; then
-    updateRequired=1;
-    echo "not Equals updating the product name";
+    updateRequired=1
+    echo "not Equals updating the product name"
     productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
     echo "Updated Product Name"
     echo $productName | jq
@@ -84,11 +84,11 @@ function updatePipelineData() {
     pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productName]")
   else
     echo "There is no Change In Product Name. Not Updating the Name."
-  fi 
+  fi
 
   if [[ $updateRequired -eq 1 ]]; then
     echo "Update Require. Update request with: $pipelineData"
-    echo $pipelineData | jq >> temp.json
+    echo $pipelineData | jq >>temp.json
     updatedPipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "$(cat ./temp.json | grep -v '^\s*//')")
     echo "PipelineData After Update: $updatedPipelineData"
 
@@ -189,15 +189,14 @@ function waitForDeploymentToComplete() {
   echo "Deployment Status: $deployment_satus"
 
   if [[ "$deployment_satus" == *"Error"* || "$deployment_satus" == *"Rejected"* ]]; then
-    abortDeployment    
+    abortDeployment
   elif [[ "$deployment_satus" == "Resolved-"* ]]; then
-    echo "***************Deployment Completed Successfully****************"    
+    echo "***************Deployment Completed Successfully****************"
   else
     echo "#############Deployment is Not Completed, Check the status#############"
   fi
 
 }
-
 
 # Main Script
 echo "Updating the pipeline $PEGA_PIEPLINE_ID with PEGA_PROD_NAME: $PEGA_PROD_NAME and PEGA_PROD_VERSION:$PEGA_PROD_VERSION"
