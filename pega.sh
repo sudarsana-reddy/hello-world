@@ -61,14 +61,15 @@ function updatePipelineData() {
   existingProductVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
   existingProductName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
 
-
   if [[ "$existingProductVersion" -ne "$PEGA_PROD_VERSION"]]; then
     echo "not Equals updating the product version";
     productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
     echo "Updated Product Version"
     echo $productVersion | jq
     pipelineData=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))') 
-    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productVersion]")  
+    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productVersion]") 
+  else
+    echo "There is no Change In Product Version. Not Updating the Version."
   fi
 
   if [[ "$existingProductName" -ne "$PEGA_PROD_NAME"]]; then
@@ -78,6 +79,8 @@ function updatePipelineData() {
     echo $productName | jq
     pipelineData=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productName"))')
     pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productName]")
+  else
+    echo "There is no Change In Product Name. Not Updating the Name."
   fi  
 
   echo "Request Data After Update: $pipelineData"
