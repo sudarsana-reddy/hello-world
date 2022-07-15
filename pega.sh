@@ -72,10 +72,10 @@ function updatePipelineData() {
   # echo $responseWithUpdatedVersion | jq  
   responseWithUpdatedVersionAndName=$(echo $responseWithUpdatedVersion | jq ".pipelineParameters += [$productName]")
   echo $responseWithUpdatedVersionAndName | jq
-  json=$(echo $responseWithUpdatedVersionAndName | jq tostring)
-  echo $json
+  # json=$(echo $responseWithUpdatedVersionAndName)
+  # echo $json
 
-  pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "'"$json"'")
+  pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "'"$responseWithUpdatedVersionAndName"'")
   echo "PipelineData: $pipelineData"
 
   invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
