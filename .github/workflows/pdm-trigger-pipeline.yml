@@ -8,7 +8,7 @@ on:
       PEGA_PIPELINE_ID:
         description: "PipelineId to be triggered"
         required: true
-        default: Pipeline-VGP8Q
+        default: Pipeline-8F9ON
 
       PEGA_PROD_NAME:
         description: "Product Rule Name to be deployed"
