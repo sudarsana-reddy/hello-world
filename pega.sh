@@ -59,8 +59,10 @@ function updatePipelineData() {
 
   echo "Updating the Pipeline Data for $PEGA_PIEPLINE_ID"
   productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
+  echo "Updated Product Version"
   echo $productVersion | jq
   productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
+  echo "Updated Product Name"
   echo $productName | jq
 
   responseWithNoVersion=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))')
@@ -71,19 +73,20 @@ function updatePipelineData() {
   responseWithUpdatedVersion=$(echo $responseWithNoVersionAnaName | jq ".pipelineParameters += [$productVersion]")
   # echo $responseWithUpdatedVersion | jq  
   responseWithUpdatedVersionAndName=$(echo $responseWithUpdatedVersion | jq ".pipelineParameters += [$productName]")
+  echo "Requet Data After Update: $responseWithUpdatedVersionAndName"
   echo $responseWithUpdatedVersionAndName | jq
   # json=$(echo $responseWithUpdatedVersionAndName)
   # echo $json
 
-  pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "'"$responseWithUpdatedVersionAndName"'")
-  echo "PipelineData: $pipelineData"
+  pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw $responseWithUpdatedVersionAndName)
+  echo "PipelineData After Update: $pipelineData"
 
   invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
   if [[ "$invalid_token" == "invalid_token" ]]; then
     echo "Token Expired. Getting new access token"
     getAccessToken
-    pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "'"$json"'")
-    echo "PipelineData: $pipelineData"
+    pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw --data-raw $responseWithUpdatedVersionAndName)
+    echo "PipelineData After Update: $pipelineData"
   fi
 }
 
