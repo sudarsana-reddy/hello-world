@@ -74,14 +74,14 @@ function updatePipelineData() {
   echo $responseWithUpdatedVersionAndName | jq
   json=$(echo $responseWithUpdatedVersionAndName | jq tostring)
 
-  pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw $json)
+  pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "'"$json"'")
   echo "PipelineData: $pipelineData"
 
   invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
   if [[ "$invalid_token" == "invalid_token" ]]; then
     echo "Token Expired. Getting new access token"
     getAccessToken
-    pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw $json)
+    pipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "'"$json"'")
     echo "PipelineData: $pipelineData"
   fi
 }
