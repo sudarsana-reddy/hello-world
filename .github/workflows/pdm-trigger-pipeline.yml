@@ -22,4 +22,4 @@ jobs:
         PEGA_PIPELINE_ID: Pipeline-VGP8Q
       run: |
          echo "Running the Pega Script"
-         bash pega.sh ${{secrets.PEGA_DM_REST_URL}} ${{secrets.PEGA_DM_CLIENT_ID}} ${{secrets.PEGA_DM_CLIENT_SECRET}} $PEGA_PIPELINE_ID TestProductName 01.01.02  
+         bash pega.sh ${{secrets.PEGA_DM_REST_URL}} ${{secrets.PEGA_DM_CLIENT_ID}} ${{secrets.PEGA_DM_CLIENT_SECRET}} $PEGA_PIPELINE_ID TestProd15072022_1 01.01.02  
