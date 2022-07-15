@@ -86,7 +86,7 @@ function updatePipelineData() {
     echo "There is no Change In Product Name. Not Updating the Name."
   fi 
 
-  if [[ $updateRequired -eq 1]]; then
+  if [[ $updateRequired -eq 1 ]]; then
     echo "Update Require. Update request with: $pipelineData"
     echo $pipelineData | jq >> temp.json
     updatedPipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "$(cat ./temp.json | grep -v '^\s*//')")
