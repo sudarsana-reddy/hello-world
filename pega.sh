@@ -64,12 +64,12 @@ function updatePipelineData() {
   echo $productName | jq
 
   responseWithNoVersion=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))')
-  echo $responseWithNoVersion | jq
+  # echo $responseWithNoVersion | jq
   responseWithNoVersionAnaName=$(echo $responseWithNoVersion | jq 'del(.pipelineParameters[] | select(.name == "productName"))')
-  echo $responseWithNoVersionAnaName | jq
+  # echo $responseWithNoVersionAnaName | jq
 
   responseWithUpdatedVersion=$(echo $responseWithNoVersionAnaName | jq ".pipelineParameters += [$productVersion]")
-  echo $responseWithUpdatedVersion | jq  
+  # echo $responseWithUpdatedVersion | jq  
   responseWithUpdatedVersionAndName=$(echo $responseWithUpdatedVersion | jq ".pipelineParameters += [$productName]")
   echo $responseWithUpdatedVersionAndName | jq
   json=$(echo $responseWithUpdatedVersionAndName | jq tostring)
