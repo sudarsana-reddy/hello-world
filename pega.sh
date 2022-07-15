@@ -24,6 +24,8 @@ pipelineData=""
 
 # Get Access Token
 function getAccessToken() {
+  echo "**************Getting Access Token.**************"
+  
   token_response=$(
     curl --location --request POST "$PEGA_DM_REST_URL/oauth2/v1/token" \
     --header "Content-Type: application/x-www-form-urlencoded" \
@@ -60,7 +62,7 @@ function updatePipelineData() {
   getPipelineData
 
   updateRequired=false
-  echo "Checking if update is required for the pipeline data for $PEGA_PIEPLINE_ID"
+  echo "********************Checking if update is required for the pipeline data for $PEGA_PIEPLINE_ID ********************"
   existingProductVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
   existingProductName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value')
 
@@ -99,18 +101,16 @@ function updatePipelineData() {
       echo "Token Expired. Getting new access token"
       getAccessToken
       updatedPipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw --data-raw "$(cat ./temp.json | grep -v '^\s*//')")
-      echo "PipelineData After Update: $updatedPipelineData"
+      echo "PipelineData After Update: $updatedPipelineData."
     fi
 
   else
-    echo "Update Not Required. Skipping the step"
+    echo "Update Not Required, skipping the step."
   fi
 }
 
 # Trigger a deployment through PDM Rest API
 function triggerDeployment() {
-
-  echo "Getting access token"
   getAccessToken
 
   echo "Triggering Deployment API"
@@ -121,6 +121,7 @@ function triggerDeployment() {
 }
 
 # Abort the deployment on error
+
 function abortDeployment() {
   errors=$(echo $deployment_satus_response | jq -r '.taskList[] | select(.status | contains("Resolved-Completed")| not)' | jq -r '.errors[].errorMessage')
   echo "The Errors are: $errors"
