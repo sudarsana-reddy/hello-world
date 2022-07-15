@@ -183,11 +183,13 @@ function waitForDeploymentToComplete() {
 
 }
 
-updatePipelineData
-# Main Script
-# echo "Triggering pipeline for $PEGA_PIEPLINE_ID"
-# triggerDeployment
-# echo "deploymentId: $deploymentId"
 
-# echo "Wait For Deployment to complete"
-# waitForDeploymentToComplete
+# Main Script
+echo "Updating the pipeline $PEGA_PIEPLINE_ID with PEGA_PROD_NAME: $PEGA_PROD_NAME and PEGA_PROD_VERSION:$PEGA_PROD_VERSION"
+updatePipelineData
+echo "Triggering pipeline for $PEGA_PIEPLINE_ID"
+triggerDeployment
+echo "deploymentId: $deploymentId"
+
+echo "Wait For Deployment to complete"
+waitForDeploymentToComplete
