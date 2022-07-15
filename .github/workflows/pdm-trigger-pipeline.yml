@@ -37,4 +37,4 @@ jobs:
     - name: Trigger DM Pipeline
       run: |
          echo "Running the Pega Script"
-         bash pega.sh ${{secrets.PEGA_DM_REST_URL}} ${{secrets.PEGA_DM_CLIENT_ID}} ${{secrets.PEGA_DM_CLIENT_SECRET}} ${{ inputs.PEGA_PIPELINE_ID }} ${{ inoputs.PEGA_PROD_NAME}} ${{ inoputs.PEGA_PROD_VERSION}}
+         bash pega.sh ${{secrets.PEGA_DM_REST_URL}} ${{secrets.PEGA_DM_CLIENT_ID}} ${{secrets.PEGA_DM_CLIENT_SECRET}} ${{ inputs.PEGA_PIPELINE_ID }} ${{ inputs.PEGA_PROD_NAME}} ${{ inputs.PEGA_PROD_VERSION}}
