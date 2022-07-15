@@ -58,26 +58,30 @@ function updatePipelineData() {
   getPipelineData
 
   echo "Updating the Pipeline Data for $PEGA_PIEPLINE_ID"
-  productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
-  echo "Updated Product Version"
-  echo $productVersion | jq
-  productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
-  echo "Updated Product Name"
-  echo $productName | jq
+  existingProductVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
+  existingProductName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
 
-  responseWithNoVersion=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))')
-  # echo $responseWithNoVersion | jq
-  responseWithNoVersionAnaName=$(echo $responseWithNoVersion | jq 'del(.pipelineParameters[] | select(.name == "productName"))')
-  # echo $responseWithNoVersionAnaName | jq
 
-  responseWithUpdatedVersion=$(echo $responseWithNoVersionAnaName | jq ".pipelineParameters += [$productVersion]")
-  # echo $responseWithUpdatedVersion | jq  
-  responseWithUpdatedVersionAndName=$(echo $responseWithUpdatedVersion | jq ".pipelineParameters += [$productName]")
-  echo "Request Data After Update: $responseWithUpdatedVersionAndName"
-  echo $responseWithUpdatedVersionAndName | jq >> temp.json
-  # json=$(echo $responseWithUpdatedVersionAndName)
-  # echo $json
+  if [[ "$existingProductVersion" -ne "$PEGA_PROD_VERSION"]]; then
+    echo "not Equals updating the product version";
+    productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
+    echo "Updated Product Version"
+    echo $productVersion | jq
+    pipelineData=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))') 
+    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productVersion]")  
+  fi
 
+  if [[ "$existingProductName" -ne "$PEGA_PROD_NAME"]]; then
+    echo "not Equals updating the product name";
+    productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
+    echo "Updated Product Name"
+    echo $productName | jq
+    pipelineData=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productName"))')
+    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productName]")
+  fi  
+
+  echo "Request Data After Update: $pipelineData"
+  echo $pipelineData | jq >> temp.json
   updatedPipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "$(cat ./temp.json | grep -v '^\s*//')")
   echo "PipelineData After Update: $updatedPipelineData"
 
