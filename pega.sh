@@ -64,32 +64,32 @@ function updatePipelineData() {
   existingProductVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
   existingProductName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value')
 
-  if NOT [ $existingProductVersion = "$PEGA_PROD_VERSION" ]; then
+  if [[ $existingProductVersion == "$PEGA_PROD_VERSION" ]]; then
+    echo "There is no Change In Product Version. Not Updating the Version."    
+  else
     updateRequired=true
     echo "Existing $existingProductVersion and Required \"$PEGA_PROD_VERSION\" Versions are Not Equal. Updating the Product version"
     productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
     echo "Updated Product Version"
     echo $productVersion | jq
     pipelineData=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productVersion"))')
-    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productVersion]")
-  else
-    echo "There is no Change In Product Version. Not Updating the Version."
+    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productVersion]")    
   fi
 
-  if NOT [ $existingProductName = "$PEGA_PROD_NAME" ]; then
+  if [[ $existingProductName == "$PEGA_PROD_NAME" ]]; then
+    echo "There is no Change In Product Name. Not Updating the Name."    
+  else
     updateRequired=true
     echo "Existing $existingProductName and Required \"$PEGA_PROD_NAME\" Name are Not Equal. Updating the Product name"
     productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
     echo "Updated Product Name"
     echo $productName | jq
     pipelineData=$(echo $pipelineData | jq 'del(.pipelineParameters[] | select(.name == "productName"))')
-    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productName]")
-  else
-    echo "There is no Change In Product Name. Not Updating the Name."
+    pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productName]")    
   fi
 
   if [[ "$updateRequired" == "true" ]]; then
-    echo "Update Require. Update request with: $pipelineData"
+    echo "Update is Required. Updating request with: $pipelineData"
     echo $pipelineData | jq >>temp.json
     updatedPipelineData=$(curl --location --request PUT "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token" --data-raw "$(cat ./temp.json | grep -v '^\s*//')")
     echo "PipelineData After Update: $updatedPipelineData"
