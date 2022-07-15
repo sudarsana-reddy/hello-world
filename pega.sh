@@ -42,7 +42,8 @@ function getPipelineData() {
   getAccessToken
   echo "Getting the Pipeline Data for $PEGA_PIEPLINE_ID"
   pipelineData=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token")
-  echo "PipelineData: $pipelineData"
+  echo "PipelineData:"
+  echo $pipelineData | jq
 
   invalid_token=$(echo $abort_response | jq -r '.errors[].ID')
   if [[ "$invalid_token" == "invalid_token" ]]; then
@@ -50,7 +51,7 @@ function getPipelineData() {
     getAccessToken
     pipelineData=$(curl --location --request GET "$PEGA_DM_REST_URL/DeploymentManager/v1/pipelines/$PEGA_PIEPLINE_ID" --header "Authorization: Bearer $access_token")
     echo "PipelineData:"
-    echo $PipelineData | jq
+    echo $pipelineData | jq
   fi
 }
 
@@ -65,7 +66,7 @@ function updatePipelineData() {
 
   if [ $existingProductVersion != "$PEGA_PROD_VERSION" ]; then
     updateRequired=true
-    echo "Existing $existingProductVersion and Required $PEGA_PROD_VERSION Versions are Not Equal. Updating the product version"
+    echo "Existing $existingProductVersion and Required \"$PEGA_PROD_VERSION\" Versions are Not Equal. Updating the Product version"
     productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
     echo "Updated Product Version"
     echo $productVersion | jq
@@ -77,7 +78,7 @@ function updatePipelineData() {
 
   if [ $existingProductName != "$PEGA_PROD_NAME" ]; then
     updateRequired=true
-    echo "Existing $existingProductName and Required $PEGA_PROD_NAME Versions are Not Equal. Updating the product version"
+    echo "Existing $existingProductName and Required \"$PEGA_PROD_NAME\" Name are Not Equal. Updating the Product name"
     productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
     echo "Updated Product Name"
     echo $productName | jq
