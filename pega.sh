@@ -60,11 +60,11 @@ function updatePipelineData() {
   getPipelineData
 
   updateRequired=false
-  echo "Updating the Pipeline Data for $PEGA_PIEPLINE_ID"
+  echo "Checking if uodate is required for the pipeline data for $PEGA_PIEPLINE_ID"
   existingProductVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
   existingProductName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value')
 
-  if [[ $existingProductVersion == "$PEGA_PROD_VERSION" ]]; then
+  if [ $existingProductVersion = "\"$PEGA_PROD_VERSION\"" ]; then
     echo "There is no Change In Product Version. Not Updating the Version."    
   else
     updateRequired=true
@@ -76,7 +76,7 @@ function updatePipelineData() {
     pipelineData=$(echo $pipelineData | jq ".pipelineParameters += [$productVersion]")    
   fi
 
-  if [[ $existingProductName == "$PEGA_PROD_NAME" ]]; then
+  if [ $existingProductName = "\"$PEGA_PROD_NAME\"" ]; then
     echo "There is no Change In Product Name. Not Updating the Name."    
   else
     updateRequired=true
