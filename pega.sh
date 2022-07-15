@@ -173,10 +173,10 @@ function waitForDeploymentToComplete() {
 
   echo "Deployment Status: $deployment_satus"
 
-  if [[ "$deployment_satus" == "Resolved-"* ]]; then
-    echo "***************Deployment Completed****************"
-  elif [[ "$deployment_satus" == *"Error"* ]]; then
-    abortDeployment
+  if [[ "$deployment_satus" == *"Error"* || "$deployment_satus" == *"Rejected"*]]; then
+    abortDeployment    
+  elif [[ "$deployment_satus" == "Resolved-"* ]]; then
+    echo "***************Deployment Completed Successfully****************"    
   else
     echo "#############Deployment is Not Completed, Check the status#############"
   fi
