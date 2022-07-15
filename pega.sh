@@ -64,7 +64,7 @@ function updatePipelineData() {
   existingProductVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value')
   existingProductName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value')
 
-  if [ $existingProductVersion != "$PEGA_PROD_VERSION" ]; then
+  if NOT [ $existingProductVersion = "$PEGA_PROD_VERSION" ]; then
     updateRequired=true
     echo "Existing $existingProductVersion and Required \"$PEGA_PROD_VERSION\" Versions are Not Equal. Updating the Product version"
     productVersion=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productVersion") | .value |="'"$PEGA_PROD_VERSION"'"')
@@ -76,7 +76,7 @@ function updatePipelineData() {
     echo "There is no Change In Product Version. Not Updating the Version."
   fi
 
-  if [ $existingProductName != "$PEGA_PROD_NAME" ]; then
+  if NOT [ $existingProductName = "$PEGA_PROD_NAME" ]; then
     updateRequired=true
     echo "Existing $existingProductName and Required \"$PEGA_PROD_NAME\" Name are Not Equal. Updating the Product name"
     productName=$(echo $pipelineData | jq '.pipelineParameters[] | select(.name == "productName") | .value |="'"$PEGA_PROD_NAME"'"')
