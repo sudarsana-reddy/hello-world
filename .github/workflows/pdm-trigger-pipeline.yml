@@ -2,7 +2,24 @@ name: "Pega Deployment -PDM Rest API"
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
-on: [workflow_dispatch]
+on: 
+  workflow_dispatch:
+    inputs:
+      PEGA_PIPELINE_ID:
+        description: "PipelineId to be triggered"
+        required: true
+        default: Pipeline-VGP8Q
+
+      PEGA_PROD_NAME:
+        description: "Product Rule Name to be deployed"
+        required: true
+
+      PEGA_PROD_VERSION:
+        description: "ProductVersion to be deployed"
+        required: true
+        default: 01.01.01
+
+      
       
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -18,8 +35,6 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Trigger DM Pipeline
-      env:
-        PEGA_PIPELINE_ID: Pipeline-VGP8Q
       run: |
          echo "Running the Pega Script"
-         bash pega.sh ${{secrets.PEGA_DM_REST_URL}} ${{secrets.PEGA_DM_CLIENT_ID}} ${{secrets.PEGA_DM_CLIENT_SECRET}} $PEGA_PIPELINE_ID TestProd15072022_1 01.01.02  
+         bash pega.sh ${{secrets.PEGA_DM_REST_URL}} ${{secrets.PEGA_DM_CLIENT_ID}} ${{secrets.PEGA_DM_CLIENT_SECRET}} ${{ inputs.PEGA_PIPELINE_ID }} ${{ inoputs.PEGA_PROD_NAME}} ${{ inoputs.PEGA_PROD_VERSION}}
