@@ -2,15 +2,23 @@
 
 name: prpcServiceUtils - Manual workflow
 
-env:
-  PEGA_PROD_NAME: PrpcApp_export_1702
-  PEGA_PROD_VERSION: 01.01.01
+env: 
   PEGA_API_ASYNC: false
-  PEGA_ARCHIVE_NAME: PrpcApp_export_1702.zip
+  PEGA_ARCHIVE_NAME: ${{inputs.PEGA_PROD_NAME}}.zip
 
 # Controls when the action will run. Workflow runs when manually triggered using the UI
 # or API.
-on: [workflow_dispatch]
+on: 
+  workflow_dispatch:
+    inputs:
+      PEGA_PROD_NAME:
+        description: Pega Product rule name
+        required: true
+        
+      PEGA_PROD_VERSION:
+        description: Pega Product rule version
+        required: true
+        default: 01.01.01
       
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -37,11 +45,9 @@ jobs:
         sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_USERNAME}}#" prpcServiceUtils.properties
         sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_PASSWORD}}#" prpcServiceUtils.properties
         sed -i -r "s#(pega.rest.response.type=)(.*)#\1${{secrets.PEGA_REST_RESPONSE_TYPE}}#" prpcServiceUtils.properties
-        sed -i -r "s#(export.productVersion=)(.*)#\1${{env.PEGA_PROD_VERSION}}#" prpcServiceUtils.properties
-        sed -i -r "s#(export.productName=)(.*)#\1${{env.PEGA_PROD_NAME}}#" prpcServiceUtils.properties
-        sed -i -r "s#(export.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" prpcServiceUtils.properties
-        sed -i -r "s#(export.applicationVersion=)(.*)##" prpcServiceUtils.properties
-        sed -i -r "s#(export.applicationName=)(.*)##" prpcServiceUtils.properties
+        sed -i -r "s#(export.productVersion=)(.*)#\1${{inputs.PEGA_PROD_VERSION}}#" prpcServiceUtils.properties
+        sed -i -r "s#(export.productName=)(.*)#\1${{inputs.PEGA_PROD_NAME}}#" prpcServiceUtils.properties
+        sed -i -r "s#(export.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" prpcServiceUtils.properties       
          sed -i -r "s#(export.archiveName=)(.*)#\1${{env.PEGA_ARCHIVE_NAME}}#" prpcServiceUtils.properties
         echo "**********Updating the file completed***************"      
         mkdir artifacts
