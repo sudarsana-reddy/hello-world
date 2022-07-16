@@ -1,11 +1,16 @@
 #!/bin/bash
 echo "Starting the srcipt"
 
+# map/dictionary - application o pipline id
+
+declare -A APP_PIPELINE_MAP=( [QUANTUM]=Pipeline-8F9ON )
+
+
 # PEGA DETAILS
 PEGA_DM_REST_URL=$1
 PEGA_DM_CLIENT_ID=$2
 PEGA_DM_CLIENT_SECRET=$3
-PEGA_PIEPLINE_ID=$4
+PEGA_PIEPLINE_ID=${APP_PIPELINE_MAP[$4]}
 PEGA_PROD_NAME=$5
 PEGA_PROD_VERSION=$6
 
