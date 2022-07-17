@@ -8,24 +8,25 @@ env:
   
 on: 
   workflow_dispatch:
-    PEGA_PROD_NAME:
-      description: Product rule to be deployed
-      required: true
+    inputs:
+      PEGA_PROD_NAME:
+        description: Product rule to be deployed
+        required: true
 
-    PEGA_PROD_VERSION:
-      description: Product Version to be deployed
-      required: true
-      default: 01.01.01 
+      PEGA_PROD_VERSION:
+        description: Product Version to be deployed
+        required: true
+        default: 01.01.01 
 
-    PEGA_TARGET_ENV:
-      description: Pega Target Environment
-      required: true
-      default: SIT1
+      PEGA_TARGET_ENV:
+        description: Pega Target Environment
+        required: true
+        default: SIT1
 
-    PEGA_ARTIFACT_DIR:
-      description: Artifact storage dir for prpcServiceUtils
-      required: true
-      default: artifacts
+      PEGA_ARTIFACT_DIR:
+        description: Artifact storage dir for prpcServiceUtils
+        required: true
+        default: artifacts
       
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
