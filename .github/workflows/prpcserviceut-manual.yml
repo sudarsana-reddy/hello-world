@@ -55,6 +55,7 @@ jobs:
         cp prpcServiceUtils.properties $SOURCE_FILE
         echo "***********************Updating the file *****************************"
         echo ${{secrets.PEGA_URL}}
+<<<<<<< HEAD
         sed -i -r "s#(pega.rest.server.url=)(.*)#\1${{secrets.PEGA_SOURCE_URL}}#" $SOURCE_FILE
         sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_USERNAME}}#" $SOURCE_FILE
         sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_PASSWORD}}#" $SOURCE_FILE
@@ -63,6 +64,16 @@ jobs:
         sed -i -r "s#(export.productName=)(.*)#\1${{inputs.PEGA_PROD_NAME}}#" $SOURCE_FILE
         sed -i -r "s#(export.productVersion=)(.*)#\1${{inputs.PEGA_PROD_VERSION}}#" $SOURCE_FILE             
         sed -i -r "s#(export.archiveName=)(.*)#\1$PEGA_ARCHIVE_NAME#" $SOURCE_FILE
+=======
+        sed -i -r "s#(pega.rest.server.url=)(.*)#\1${{secrets.PEGA_URL}}#" prpcServiceUtils.properties
+        sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_USERNAME}}#" prpcServiceUtils.properties
+        sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_PASSWORD}}#" prpcServiceUtils.properties
+        sed -i -r "s#(pega.rest.response.type=)(.*)#\1${{secrets.PEGA_REST_RESPONSE_TYPE}}#" prpcServiceUtils.properties
+        sed -i -r "s#(export.productVersion=)(.*)#\1${{inputs.PEGA_PROD_VERSION}}#" prpcServiceUtils.properties
+        sed -i -r "s#(export.productName=)(.*)#\1${{inputs.PEGA_PROD_NAME}}#" prpcServiceUtils.properties
+        sed -i -r "s#(export.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" prpcServiceUtils.properties       
+         sed -i -r "s#(export.archiveName=)(.*)#\1${{env.PEGA_ARCHIVE_NAME}}#" prpcServiceUtils.properties
+>>>>>>> 78337c6d93755dbc3b383e2ea8e8833732db04af
         echo "**********Updating the file completed***************"      
         mkdir ${{ env.PEGA_ARTIFACT_DIR }}
         ls -ltr
@@ -78,7 +89,7 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         # Artifact name
-        name: ${{env.PEGA_PROD_NAME}}
+        name: ${{inputs.PEGA_PROD_NAME}}
         # A file, directory or wildcard pattern that describes what to upload
         path: |
           ${{ github.workspace }}/prpc87/scripts/utils/${{ env.PEGA_ARTIFACT_DIR }}/
