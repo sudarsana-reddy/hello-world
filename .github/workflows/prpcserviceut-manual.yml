@@ -18,7 +18,7 @@ on:
     PEGA_PROD_VERSION:
       description: Product Version to be deployed
       required: true
-      default: 01.01.01
+      default: 01.01.01 
 
     PEGA_TARGET_ENV:
       description: Pega Target Environment
