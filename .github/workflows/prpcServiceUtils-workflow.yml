@@ -104,7 +104,7 @@ jobs:
         ls -ltr
         ARCHIVE_PATH=$(find . -type f -printf "%p\n" | grep zip)
         echo "Import archive path: $ARCHIVE_PATH"
-        ARCHIVE_ABSOLUTE_PATH=${{ github.workspace }}$ARCHIVE_PATH
+        ARCHIVE_ABSOLUTE_PATH=${{ github.workspace }}/$ARCHIVE_PATH
         echo "Absolute Path: $ARCHIVE_ABSOLUTE_PATH"
 
         curl -o ${{ env.PRPC_FOLDER_NAME }}.zip ${{ secrets.PRPC_SERVICE_UTILS_DOWNLOAD_URL}}
