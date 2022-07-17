@@ -77,8 +77,7 @@ jobs:
       with:
         # Artifact name
         name: ${{inputs.PEGA_PROD_NAME}}       
-        path: |
-          ${{ github.workspace }}/${{ env.PRPC_FOLDER_NAME }}/scripts/utils/${{ env.PEGA_ARTIFACT_DIR }}/*
+        path: ${{ github.workspace }}/${{ env.PRPC_FOLDER_NAME }}/scripts/utils/${{ env.PEGA_ARTIFACT_DIR }}/*
     
 
   Import-RAP-File:
