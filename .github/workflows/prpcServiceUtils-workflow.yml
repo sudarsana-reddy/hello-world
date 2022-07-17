@@ -56,8 +56,8 @@ jobs:
         echo "***********************Updating the file *****************************"
         echo ${{secrets.PEGA_URL}}
         sed -i -r "s#(pega.rest.server.url=)(.*)#\1${{secrets.PEGA_SOURCE_URL}}#" $SOURCE_FILE
-        sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_USERNAME}}#" $SOURCE_FILE
-        sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_PASSWORD}}#" $SOURCE_FILE
+        sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_SOURCE_USERNAME}}#" $SOURCE_FILE
+        sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_SOURCE_PASSWORD}}#" $SOURCE_FILE
         sed -i -r "s#(pega.rest.response.type=)(.*)#\1${{env.PEGA_REST_RESPONSE_TYPE}}#" $SOURCE_FILE
         sed -i -r "s#(export.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" $SOURCE_FILE  
         sed -i -r "s#(export.productName=)(.*)#\1${{inputs.PEGA_PROD_NAME}}#" $SOURCE_FILE
@@ -98,8 +98,8 @@ jobs:
         echo "***********************Updating the target file *****************************"
         echo $PEGA_TARGET_URL
         sed -i -r "s#(pega.rest.server.url=)(.*)#\1$PEGA_TARGET_URL#" $TARGET_FILE
-        sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_USERNAME}}#" $TARGET_FILE
-        sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_PASSWORD}}#" $TARGET_FILE
+        sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_TARGET_USERNAME}}#" $TARGET_FILE
+        sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_TARGET_PASSWORD}}#" $TARGET_FILE
         sed -i -r "s#(pega.rest.response.type=)(.*)#\1${{env.PEGA_REST_RESPONSE_TYPE}}#" $TARGET_FILE
         sed -i -r "s#(import.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" $TARGET_FILE
         sed -i -r "s#(import.archive.path=)(.*)#\1$ARCHIVE_PATH#" $TARGET_FILE
