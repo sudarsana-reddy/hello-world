@@ -42,7 +42,7 @@ mkdir $PEGA_ARTIFACT_DIR
 ls -ltr
 chmod 711 ./../bin/ant
 echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-bash ./prpcServiceUtils.sh export --propFile $SOURCE_FILE --artifactsDir ${{ github.workspace }}/$PRPC_FOLDER_NAME/scripts/utils/$PEGA_ARTIFACT_DIR
+bash ./prpcServiceUtils.sh export --propFile $SOURCE_FILE --artifactsDir $PEGA_ARTIFACT_DIR
 ls -ltr
 cd $PEGA_ARTIFACT_DIR
 ls -ltr 
