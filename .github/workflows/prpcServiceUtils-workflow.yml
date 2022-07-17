@@ -41,36 +41,9 @@ jobs:
    
     - name: Export RAP from Dev
       run: |        
-        pwd 
-        curl -o ${{ env.PRPC_FOLDER_NAME }}.zip ${{ secrets.PRPC_SERVICE_UTILS_DOWNLOAD_URL}}
-        unzip ${{ env.PRPC_FOLDER_NAME }}.zip -d ${{ env.PRPC_FOLDER_NAME }}           
-        cd ${{ env.PRPC_FOLDER_NAME }}
-        ls -ltr     
-        cd scripts/utils
-        SOURCE_FILE=source.properties
-        DATE_FORMAT=$(date -u +"%d%m%Y%H%M%S")
-        PEGA_ARCHIVE_NAME="${{ inputs.PEGA_PROD_NAME }}_$DATE_FORMAT.zip"
-        cp prpcServiceUtils.properties $SOURCE_FILE
-        echo "***********************Updating the file *****************************"
-        echo ${{secrets.PEGA_URL}}
-        sed -i -r "s#(pega.rest.server.url=)(.*)#\1${{secrets.PEGA_SOURCE_URL}}#" $SOURCE_FILE
-        sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_SOURCE_USERNAME}}#" $SOURCE_FILE
-        sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_SOURCE_PASSWORD}}#" $SOURCE_FILE
-        sed -i -r "s#(pega.rest.response.type=)(.*)#\1${{env.PEGA_REST_RESPONSE_TYPE}}#" $SOURCE_FILE
-        sed -i -r "s#(export.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" $SOURCE_FILE  
-        sed -i -r "s#(export.productName=)(.*)#\1${{inputs.PEGA_PROD_NAME}}#" $SOURCE_FILE
-        sed -i -r "s#(export.productVersion=)(.*)#\1${{inputs.PEGA_PROD_VERSION}}#" $SOURCE_FILE             
-        sed -i -r "s#(export.archiveName=)(.*)#\1$PEGA_ARCHIVE_NAME#" $SOURCE_FILE
-        echo "**********Updating the file completed***************"      
-        mkdir ${{ inputs.PEGA_ARTIFACT_DIR }}
-        ls -ltr
-        chmod 711 ./../bin/ant        
-        echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        bash ./prpcServiceUtils.sh export --propFile $SOURCE_FILE --artifactsDir ${{ github.workspace }}/${{ env.PRPC_FOLDER_NAME }}/scripts/utils/${{ inputs.PEGA_ARTIFACT_DIR }}
-        ls -ltr
-        cd ${{ inputs.PEGA_ARTIFACT_DIR }}
-        ls -ltr 
-       
+        bash pega-export.sh ${{ secrets.PEGA_SOURCE_URL }} ${{ secrets.PEGA_SOURCE_USERNAME }} ${{ secrets.PEGA_SOURCE_PASSWORD }} \
+             ${{ env.PEGA_REST_RESPONSE_TYPE }} ${{ env.PEGA_API_ASYNC }} ${{ inputs.PEGA_PROD_NAME }} ${{ inputs.PEGA_PROD_VERSION }} \
+             ${{ inputs.PEGA_ARTIFACT_DIR }} ${{ secrets.PRPC_SERVICE_UTILS_DOWNLOAD_URL }} ${{ env.PRPC_FOLDER_NAME }}       
         
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
