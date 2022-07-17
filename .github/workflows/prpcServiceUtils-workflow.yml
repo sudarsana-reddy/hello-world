@@ -62,13 +62,13 @@ jobs:
         sed -i -r "s#(export.productVersion=)(.*)#\1${{inputs.PEGA_PROD_VERSION}}#" $SOURCE_FILE             
         sed -i -r "s#(export.archiveName=)(.*)#\1$PEGA_ARCHIVE_NAME#" $SOURCE_FILE
         echo "**********Updating the file completed***************"      
-        mkdir ${{ env.PEGA_ARTIFACT_DIR }}
+        mkdir ${{ inputs.PEGA_ARTIFACT_DIR }}
         ls -ltr
         chmod 711 ./../bin/ant        
         echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         bash ./prpcServiceUtils.sh export --propFile $SOURCE_FILE --artifactsDir ./${{ env.PEGA_ARTIFACT_DIR }}
         ls -ltr
-        cd ${{ env.PEGA_ARTIFACT_DIR }}
+        cd ${{ inputs.PEGA_ARTIFACT_DIR }}
         ls -ltr
        
         
