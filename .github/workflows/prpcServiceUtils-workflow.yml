@@ -83,8 +83,9 @@ jobs:
 
     - name: Import exported RAP into ${{ inputs.PEGA_TARGET_ENV }}
       run: |
+        
         ls -ltr
-        PEGA_TARGET_URL=$(cat pega-env.json | jq -r ".${{ inputs.PEGA_TARGET_ENV }}")
+        PEGA_TARGET_URL=$(cat ${{ github.workspace }}/pega-env.json | jq -r ".${{ inputs.PEGA_TARGET_ENV }}")
         cd prpc87
         ls -ltr     
         cd scripts/utils
