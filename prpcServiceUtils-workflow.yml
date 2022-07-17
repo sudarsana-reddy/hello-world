@@ -1,0 +1,107 @@
+# This is a basic workflow that is manually triggered
+
+name: prpcServiceUtils-Workflow
+
+env: 
+  PEGA_API_ASYNC: false
+  PEGA_REST_RESPONSE_TYPE: json
+  
+on: 
+  workflow_dispatch:
+    PEGA_PROD_NAME:
+      description: Product rule to be deployed
+      required: true
+
+    PEGA_PROD_VERSION:
+      description: Product Version to be deployed
+      required: true
+      default: 01.01.01 
+
+    PEGA_TARGET_ENV:
+      description: Pega Target Environment
+      required: true
+      default: SIT1
+
+    PEGA_ARTIFACT_DIR:
+      description: Artifact storage dir for prpcServiceUtils
+      required: true
+      default: artifacts
+      
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "greet"
+  Deploy-Pega-Product-Rule:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Runs a single command using the runners shell
+    - name: Export RAP from Dev
+      run: |
+        echo "Hello ${{ github.event.inputs.name }}"        
+        pwd 
+        curl -o prpc87.zip https://d2xbzkyevnvl4b.cloudfront.net/prpcServiceUtils_8.7.zip
+        unzip prpc87.zip -d prpc87           
+        cd prpc87
+        ls -ltr     
+        cd scripts/utils
+        SOURCE_FILE=source.properties
+        DATE_FORMAT=$(date -u +"%d%m%Y%H%M%S")
+        PEGA_ARCHIVE_NAME="${{ inputs.PEGA_PROD_NAME }}_$DATE_FORMAT.zip"
+        cp prpcServiceUtils.properties $SOURCE_FILE
+        echo "***********************Updating the file *****************************"
+        echo ${{secrets.PEGA_URL}}
+        sed -i -r "s#(pega.rest.server.url=)(.*)#\1${{secrets.PEGA_SOURCE_URL}}#" $SOURCE_FILE
+        sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_USERNAME}}#" $SOURCE_FILE
+        sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_PASSWORD}}#" $SOURCE_FILE
+        sed -i -r "s#(pega.rest.response.type=)(.*)#\1${{env.PEGA_REST_RESPONSE_TYPE}}#" $SOURCE_FILE
+        sed -i -r "s#(export.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" $SOURCE_FILE  
+        sed -i -r "s#(export.productName=)(.*)#\1${{inputs.PEGA_PROD_NAME}}#" $SOURCE_FILE
+        sed -i -r "s#(export.productVersion=)(.*)#\1${{inputs.PEGA_PROD_VERSION}}#" $SOURCE_FILE             
+        sed -i -r "s#(export.archiveName=)(.*)#\1$PEGA_ARCHIVE_NAME#" $SOURCE_FILE
+        echo "**********Updating the file completed***************"      
+        mkdir ${{ env.PEGA_ARTIFACT_DIR }}
+        ls -ltr
+        chmod 711 ./../bin/ant        
+        echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        bash ./prpcServiceUtils.sh export --propFile $SOURCE_FILE --artifactsDir ./${{ env.PEGA_ARTIFACT_DIR }}
+        ls -ltr
+        cd ${{ env.PEGA_ARTIFACT_DIR }}
+        ls -ltr
+       
+        
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        # Artifact name
+        name: ${{inputs.PEGA_PROD_NAME}}
+        # A file, directory or wildcard pattern that describes what to upload
+        path: |
+          ${{ github.workspace }}/prpc87/scripts/utils/${{ env.PEGA_ARTIFACT_DIR }}/
+
+    - name: Import exported RAP into ${{ inputs.PEGA_TARGET_ENV }}
+      run: |
+        PEGA_TARGET_URL=$(cat pega-env.json | jq -r ".${{ inputs.PEGA_TARGET_ENV }}")
+        cd prpc87
+        ls -ltr     
+        cd scripts/utils
+        ARCHIVE_PATH=$(find . -type f -printf "%p\n" | grep zip)
+        echo "Import archive path: $ARCHIVE_PATH"
+        TARGET_FILE=target.properties
+        cp prpcServiceUtils.properties $TARGET_FILE
+        echo "***********************Updating the target file *****************************"
+        echo $PEGA_TARGET_URL
+        sed -i -r "s#(pega.rest.server.url=)(.*)#\1$PEGA_TARGET_URL#" $TARGET_FILE
+        sed -i -r "s#(pega.rest.username=)(.*)#\1${{secrets.PEGA_USERNAME}}#" $TARGET_FILE
+        sed -i -r "s#(pega.rest.password=)(.*)#\1${{secrets.PEGA_PASSWORD}}#" $TARGET_FILE
+        sed -i -r "s#(pega.rest.response.type=)(.*)#\1${{env.PEGA_REST_RESPONSE_TYPE}}#" $TARGET_FILE
+        sed -i -r "s#(import.async=)(.*)#\1${{env.PEGA_API_ASYNC}}#" $TARGET_FILE
+        sed -i -r "s#(import.archive.path=)(.*)#\1$ARCHIVE_PATH#" $TARGET_FILE
+        sed -i -r "s#(import.codesetName=)(.*)#\1#" $TARGET_FILE
+        sed -i -r "s#(import.codesetVersion=)(.*)#\1#" $TARGET_FILE        
+        echo "**********Updating the target file completed***************"       
+    
+        chmod 711 ./../bin/ant        
+        echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+        bash ./prpcServiceUtils.sh import --propFile $TARGET_FILE  
