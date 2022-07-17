@@ -44,7 +44,7 @@ jobs:
     - name: Export RAP from Dev
       run: |        
         pwd 
-        curl -o ${{ env.PRPC_FOLDER_NAME }}.zip https://d2xbzkyevnvl4b.cloudfront.net/prpcServiceUtils_8.7.zip
+        curl -o ${{ env.PRPC_FOLDER_NAME }}.zip ${{ secrets.PRPC_SERVICE_UTILS_DOWNLOAD_URL}}
         unzip ${{ env.PRPC_FOLDER_NAME }}.zip -d ${{ env.PRPC_FOLDER_NAME }}           
         cd ${{ env.PRPC_FOLDER_NAME }}
         ls -ltr     
