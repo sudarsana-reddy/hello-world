@@ -66,10 +66,10 @@ jobs:
         ls -ltr
         chmod 711 ./../bin/ant        
         echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
-        bash ./prpcServiceUtils.sh export --propFile $SOURCE_FILE --artifactsDir ./${{ inputs.PEGA_ARTIFACT_DIR }}
+        bash ./prpcServiceUtils.sh export --propFile $SOURCE_FILE --artifactsDir ${{ github.workspace }}/${{ env.PRPC_FOLDER_NAME }}/scripts/utils/${{ env.PEGA_ARTIFACT_DIR }}
         ls -ltr
         cd ${{ inputs.PEGA_ARTIFACT_DIR }}
-        ls -ltr
+        ls -ltr 
        
         
     - name: Upload a Build Artifact
