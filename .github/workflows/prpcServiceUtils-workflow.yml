@@ -82,7 +82,7 @@ jobs:
           ${{ github.workspace }}/${{ env.PRPC_FOLDER_NAME }}/scripts/utils/${{ env.PEGA_ARTIFACT_DIR }}/
     
 
-  IMPORT-RAP-FILE-TO-${{ inputs.PEGA_TARGET_ENV }}:
+  IMPORT-RAP-File:
     runs-on: ubuntu-latest
     needs: Export-RAP-File
 
