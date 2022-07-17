@@ -5,10 +5,6 @@ name: prpcServiceUtils - Manual workflow
 env: 
   PEGA_API_ASYNC: false
   PEGA_REST_RESPONSE_TYPE: json
-  # PEGA_ARCHIVE_NAME: "${{ inputs.PEGA_PROD_NAME }}.zip"
-
-# Controls when the action will run. Workflow runs when manually triggered using the UI
-# or API.
 on: 
   workflow_dispatch:
     PEGA_PROD_NAME:
