@@ -108,7 +108,3 @@ jobs:
         chmod 711 ./../bin/ant        
         echo "^^^^^^^^^^^^^^^^^^^^^^^Staring the export^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
         bash ./prpcServiceUtils.sh import --propFile $TARGET_FILE  
-       
-  
-        
-        
