@@ -1,0 +1,6 @@
+{
+    "DEV": "https://242a-49-206-50-140.in.ngrok.io/prweb/PRRestService",
+    "SIT1": "https://242a-49-206-50-140.in.ngrok.io/prweb/PRRestService",
+    "SIT4": "https://242a-49-206-50-140.in.ngrok.io/prweb/PRRestService",
+    "PROD": "https://242a-49-206-50-140.in.ngrok.io/prweb/PRRestService"
+}
