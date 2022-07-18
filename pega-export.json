@@ -1,0 +1,6 @@
+{
+    "PRPC_SERVICE_UTILS_DOWNLOAD_URL": "",
+    "PRPC_FOLDER_NAME": "prpc",
+    "PEGA_API_ASYNC": false,
+    "PEGA_ARTIFACT_DIR": "artifacts"
+}

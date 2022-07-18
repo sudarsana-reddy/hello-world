@@ -23,7 +23,7 @@ cd $PRPC_FOLDER_NAME
 ls -ltr     
 cd scripts/utils
 SOURCE_FILE=source.properties
-DATE_FORMAT=$(date -u +"%d%m%Y%H%M%S")
+DATE_FORMAT=$(date +"%d%m%Y%H%M%S")
 PEGA_ARCHIVE_NAME="$PEGA_PROD_NAME_$DATE_FORMAT.zip"
 cp prpcServiceUtils.properties $SOURCE_FILE
 
