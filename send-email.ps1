@@ -27,8 +27,8 @@ try{
   
    $message.Subject = "GitHub Notificaction"
    $message.Body = "Update the status and other details"  
-   $credentials = New-Object System.Net.NetworkCredential($Username, $Password);
-   $smtp = new-object Net.Mail.SmtpClient("smtp.gmail.com", "587");
+   $credentials = New-Object System.Net.NetworkCredential($username, $password);
+   $smtp = new-object Net.Mail.SmtpClient("smtp.office365.com", "587");
    $smtp.EnableSSL = $true;
    $smtp.Credentials = $credentials;
    $smtp.send($message);
