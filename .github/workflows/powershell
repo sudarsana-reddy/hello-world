@@ -1,0 +1,9 @@
+name: Powershell Test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run powershell script
+        run: |
+          pwsh ./p.ps1
