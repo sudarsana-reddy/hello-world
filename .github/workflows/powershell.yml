@@ -1,5 +1,8 @@
 name: Powershell Test
 
+on: 
+  workflow_dispatch:
+
 jobs:
   test:
     runs-on: ubuntu-latest
