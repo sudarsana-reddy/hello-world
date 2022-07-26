@@ -20,7 +20,9 @@ jobs:
     steps:
     - name: Create 2 Files
       run: |
-        pwsh $PSVersionTable
+        pwsh
+        $PSVersionTable.PSVersion
+        exit
         echo "Creating 2 Files"
         touch ${{inputs.FILE1}}
         echo "first file" >> ${{inputs.FILE1}}
