@@ -7,7 +7,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Fail the step
+        run: |
+          exit 1;
       - name: Get Job Status
         run: |
-          echo "Status: ${{job.status}}"
-          echo "Status: ${{job.conclusion}}"
+          echo "Status: ${{ job.status }}"
+          
