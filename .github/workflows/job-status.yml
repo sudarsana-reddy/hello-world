@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Fail the step
         run: |
-          exit 1;
+          echo "No error";
       - name: Get Job Status
         if: failure()
         run: |
