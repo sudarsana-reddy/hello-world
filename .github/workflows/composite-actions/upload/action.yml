@@ -18,12 +18,15 @@ outputs:
 runs:
   using: "composite"  
   steps:
-    - run: echo Hello ${{ inputs.environment }}
+    - run: |
+       echo Hello ${{ inputs.environment }}
+       echo "a=Apple" >> "$GITHUB_ENV"
       shell: bash
     
     - id: output-task
       name: output task      
       run: |
+        echo "a should have apple ${{ env.a}}"
         file_name_ext="${{inputs.environment}}-${{inputs.file-name}}.txt"
         echo $file_name_ext
         touch $file_name_ext
