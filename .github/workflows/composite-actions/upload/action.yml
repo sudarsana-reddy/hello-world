@@ -29,11 +29,12 @@ runs:
         touch $file_name_ext
         echo "sample text" >> $file_name_ext
         echo "::set-output name=file-name::$(echo ${{ inputs.file-name }})"
+        echo "::set-output name=file-name-path::$(echo $file_name_ext)"
       shell: bash
         
     - name: Upload task
       uses: actions/upload-artifact@v3
       with:
         name: ${{inputs.environment}}-${{inputs.file-name}}
-        path: $file_name_ext
+        path: ${{ steps.output-task.outputs.file-name-path }}
    
