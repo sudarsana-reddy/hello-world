@@ -23,7 +23,7 @@ runs:
         file_name_ext="${{inputs.environment}}-${{env.file_name}}.txt"
         touch ${{env.file_name}}
         echo "sample text" > $file_name_ext
-        echo "::set-output name=file-name::$(echo $file_name_ext)"     
+        echo "::set-output name=file-name::$(echo ${{ env.file-name }})"     
         
     - name: Upload task
       uses: actions/upload-artifact@v3
