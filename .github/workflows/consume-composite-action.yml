@@ -13,7 +13,7 @@ jobs:
         run: echo "Simple Test"
         
       - name: Composite-action
-        uses: ./composite-actions/upload
+        uses: ./.github/workflows/composite-actions/upload
         id: composite-action
         with:
           environment: ${{ env.environment }}
