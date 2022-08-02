@@ -8,7 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       environment: dev
-    steps:
+    steps:    
+      - name: Checkout Code
+        uses: actions/checkout@v3.0.0
+       
       - name: Simple Step
         run: echo "Simple Test"
         
