@@ -27,7 +27,8 @@ runs:
         file_name_ext="${{inputs.environment}}-${{inputs.file-name}}.txt"
         touch $file_name_ext
         echo "sample text" > $file_name_ext
-        echo "::set-output name=file-name::$(echo ${{ inputs.file-name }})"     
+        echo "::set-output name=file-name::$(echo ${{ inputs.file-name }})"
+      shell: bash
         
     - name: Upload task
       uses: actions/upload-artifact@v3
