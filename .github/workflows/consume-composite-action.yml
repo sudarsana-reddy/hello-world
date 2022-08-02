@@ -1,0 +1,28 @@
+name: Compoiste-Action-Consumer
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      environment: dev
+    steps:
+      - name: Simple Step
+        run: echo "Simple Test"
+        
+      - name: Composite-action
+        uses: /composite-actions/upload
+        id: composite-action
+        with:
+          environment: ${{ env.environment }}
+       
+      - name: Ouput from Compiste ACtion
+        run: |
+          echo "Ouput from composite: ${{ steps.composite-action.outputs.file-name }}"
+          
+       - name: Download file (Uploaded from Composite)
+         uses: actions/download-artifact@v3
+         with:
+          name: ${{ env.environment }}-${{ steps.composite-action.outputs.file-name }}
