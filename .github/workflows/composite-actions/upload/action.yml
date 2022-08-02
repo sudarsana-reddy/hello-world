@@ -19,6 +19,7 @@ runs:
   using: "composite"  
   steps:
     - run: echo Hello ${{ inputs.environment }}
+      shell: bash
     
     - id: output-task
       name: output task      
