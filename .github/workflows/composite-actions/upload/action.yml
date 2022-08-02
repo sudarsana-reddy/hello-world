@@ -31,7 +31,7 @@ runs:
         
     - name: Upload task
       uses: actions/upload-artifact@v3
-        with:
-          name: ${{inputs.environment}}-${{inputs.file-name}}
-          path: $file_name_ext
+      with:
+        name: ${{inputs.environment}}-${{inputs.file-name}}
+        path: $file_name_ext
    
