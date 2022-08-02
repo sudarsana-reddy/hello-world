@@ -1,0 +1,14 @@
+name: Output-Input
+
+on: [workflow_dispatch]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output step
+        run: |
+          echo "my_name=sudarsan" >> $GITHUB_ENV
+          
+      - name: Echo Step output
+        run: echo ${{ env.my_name }}
