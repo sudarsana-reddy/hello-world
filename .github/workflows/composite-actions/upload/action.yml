@@ -20,7 +20,7 @@ runs:
     - id: output-task
       name: output task
       run: |
-        file_name_ext="${{env.file_name}}.txt"
+        file_name_ext="${{inputs.environment}}-${{env.file_name}}.txt"
         touch ${{env.file_name}}
         echo "sample text" > $file_name_ext
         echo "::set-output name=file-name::$(echo $file_name_ext)"     
@@ -28,6 +28,6 @@ runs:
     - name: Upload task
       uses: actions/upload-artifact@v3
         with:
-          name: ${{env.file_name}}
+          name: ${{inputs.environment}}-${{env.file_name}}
           path: $file_name_ext
    
