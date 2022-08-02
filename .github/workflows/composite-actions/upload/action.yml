@@ -2,16 +2,18 @@ name: 'Upload a file'
 description: 'Upload the given file'
 inputs:
  environment:  # id of input
-    description: Environment name'
-    required: true
-    default: dev'
+  description: Environment name
+  required: true
+  default: dev'
+file-name:
+ description: File Name
+ required: true
+ default: "upload"
+  
 outputs:
   file-name:
     description: "status of the action"
     value: ${{ steps.output-task.outputs.file-name }}
-    
- env:
-  file-name: "upload"
     
 runs:
   using: "composite"  
@@ -19,17 +21,16 @@ runs:
     - run: echo Hello ${{ inputs.environment }}
     
     - id: output-task
-      name: output task
-      
+      name: output task      
       run: |
-        file_name_ext="${{inputs.environment}}-${{env.file_name}}.txt"
-        touch ${{env.file_name}}
+        file_name_ext="${{inputs.environment}}-${{inputs.file-name}}.txt"
+        touch $file_name_ext
         echo "sample text" > $file_name_ext
-        echo "::set-output name=file-name::$(echo ${{ env.file-name }})"     
+        echo "::set-output name=file-name::$(echo ${{ inputs.file-name }})"     
         
     - name: Upload task
       uses: actions/upload-artifact@v3
         with:
-          name: ${{inputs.environment}}-${{env.file_name}}
+          name: ${{inputs.environment}}-${{inputs.file-name}}
           path: $file_name_ext
    
