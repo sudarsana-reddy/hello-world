@@ -31,3 +31,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ env.environment }}-${{ steps.composite-action.outputs.file-name }}
+          
+      - name: Contents of File
+        run: |
+          cat  "${{ env.environment }}-${{ steps.composite-action.outputs.file-name }}.txt"
