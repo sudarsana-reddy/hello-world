@@ -8,6 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       environment: dev
+      file-name: upload
     steps:    
       - name: Checkout Code
         uses: actions/checkout@v3.0.0
@@ -20,6 +21,7 @@ jobs:
         id: composite-action
         with:
           environment: ${{ env.environment }}
+          file-name: ${{ env.file-name }}
        
       - name: Ouput from Compiste ACtion
         run: |
