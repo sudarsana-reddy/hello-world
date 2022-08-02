@@ -13,7 +13,7 @@ jobs:
         run: echo "Simple Test"
         
       - name: Composite-action
-        uses: /composite-actions/upload
+        uses: ./composite-actions/upload
         id: composite-action
         with:
           environment: ${{ env.environment }}
@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "Ouput from composite: ${{ steps.composite-action.outputs.file-name }}"
           
-       - name: Download file (Uploaded from Composite)
-         uses: actions/download-artifact@v3
-         with:
+      - name: Download file (Uploaded from Composite)
+        uses: actions/download-artifact@v3
+        with:
           name: ${{ env.environment }}-${{ steps.composite-action.outputs.file-name }}
