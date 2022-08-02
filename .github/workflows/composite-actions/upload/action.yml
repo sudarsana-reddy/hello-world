@@ -10,15 +10,17 @@ outputs:
     description: "status of the action"
     value: ${{ steps.output-task.outputs.file-name }}
     
+ env:
+  file-name: "upload"
+    
 runs:
-  using: "composite"
-  env:
-    file-name: "upload"
+  using: "composite"  
   steps:
     - run: echo Hello ${{ inputs.environment }}
     
     - id: output-task
       name: output task
+      
       run: |
         file_name_ext="${{inputs.environment}}-${{env.file_name}}.txt"
         touch ${{env.file_name}}
