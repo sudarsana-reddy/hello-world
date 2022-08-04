@@ -1,4 +1,4 @@
-name: Scheduler TestFlow
+name: Remote Trigger Flow
 
 on: 
   workflow_dispatch:
