@@ -9,7 +9,6 @@ on:
         default: a.txt
 
 env:
-#   FILE1: a.txt
   FILE2: b.txt
   ENVIRONMENT_FILE: a.properties
   ENVIRONMENT: dev
@@ -19,10 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Create 2 Files
-      run: |
-        pwsh
-        $PSVersionTable | grep PSVersion
-        exit
+      run: |        
         echo "Creating 2 Files"
         touch ${{inputs.FILE1}}
         echo "first file" >> ${{inputs.FILE1}}
