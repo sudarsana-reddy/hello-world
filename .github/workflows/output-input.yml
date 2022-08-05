@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
     inputs:
       environment:      
+        type: environment
+        description: Select an environment
+      
+      testtype:
         type: choice
         description: Make a choice
         options:
