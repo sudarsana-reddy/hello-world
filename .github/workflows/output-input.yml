@@ -2,6 +2,15 @@ name: Output Input
 
 on: 
   workflow_dispatch:
+    inputs:
+      environment:      
+        type: choice
+        description: Make a choice
+        options:
+          - dev
+          - qa
+          - sit
+        
 
 jobs:
   test:
