@@ -11,9 +11,8 @@ on:
         type: choice
         description: Make a choice
         options:
-          - dev
-          - qa
-          - sit
+          - foo
+          - bar         
         
 
 jobs:
