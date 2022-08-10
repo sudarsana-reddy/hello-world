@@ -1,2 +1,33 @@
-this is from temp branch
+url: https://api.github.com/repos/sudarsana-reddy/hello-world/actions/workflows/scheduler-workflow.yml/dispatches
+method: post
+token: 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
+
+branch: master
+parameters:  FILE1="a.txt"
+
+the payload would become:
+{
+    "ref":"master",
+    "inputs": {
+        "FILE1": "a.txt"
+    }
+}
+
+Response: 204 (no Content)
+
+Curl commnad would look like
+
+curl --location --request POST 'https://api.github.com/repos/sudarsana-reddy/hello-world/actions/workflows/scheduler-workflow.yml/dispatches' \
+--header 'Accept: application/vnd.github.v3+json' \
+--header 'Authorization: Bearer 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' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "ref":"master",
+    "inputs": {
+        "FILE1": "a.txt"
+    }
+}'
+
+
+
 
