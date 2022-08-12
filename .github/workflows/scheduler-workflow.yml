@@ -7,6 +7,9 @@ on:
         description: File Name 
         required: true
         default: a.txt
+      param2:
+        description: "demo file"
+        required: true
 
 env:
   FILE2: b.txt
@@ -18,7 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Create 2 Files
-      run: |        
+      run: |   
+        echo ${{ inputs.param2 }}
         echo "Creating 2 Files"
         touch ${{inputs.FILE1}}
         echo "first file" >> ${{inputs.FILE1}}
