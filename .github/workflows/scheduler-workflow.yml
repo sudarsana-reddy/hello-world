@@ -10,6 +10,10 @@ on:
       param2:
         description: "demo file"
         required: true
+      callbackURL:
+        description: "Pega Callback URL"
+        required: false
+      
 
 env:
   FILE2: b.txt
@@ -22,7 +26,9 @@ jobs:
     steps:
     - name: Create 2 Files
       run: |   
-        echo ${{ inputs.param2 }}
+        echo ${{ inputs.callbackURL }}
+        user2_response=$(curl --location ${{ inputs.callbackURL}})
+        echo $user2_response
         echo "Creating 2 Files"
         touch ${{inputs.FILE1}}
         echo "first file" >> ${{inputs.FILE1}}
