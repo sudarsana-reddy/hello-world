@@ -27,6 +27,8 @@ jobs:
     - name: Create 2 Files
       run: |   
       
+        echo "Unknown params: ${{inputs.param3}}"
+      
         if [[ ! -z "${{ inputs.callbackURL }}" ]]
         then
           echo ${{ inputs.callbackURL }}
