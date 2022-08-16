@@ -26,9 +26,16 @@ jobs:
     steps:
     - name: Create 2 Files
       run: |   
-        echo ${{ inputs.callbackURL }}
-        user2_response=$(curl --location ${{ inputs.callbackURL}})
-        echo $user2_response
+      
+        if [[ ! -z "${{ inputs.callbackURL }}" ]]
+        then
+          echo ${{ inputs.callbackURL }}
+          user2_response=$(curl --location ${{ inputs.callbackURL}})
+          echo $user2_response
+        else
+          echo "no callback url passed"
+        fi       
+        
         echo "Creating 2 Files"
         touch ${{inputs.FILE1}}
         echo "first file" >> ${{inputs.FILE1}}
