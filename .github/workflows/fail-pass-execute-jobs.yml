@@ -27,5 +27,5 @@ jobs:
       - name: execute job
         run: |
           echo "execute job"  
-          echo "${{ needs.pass-job.conclusion }}"
+          echo "needs.pass-job.result: ${{ needs.pass-job.result }}"
   
