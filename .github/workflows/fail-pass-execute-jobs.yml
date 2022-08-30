@@ -1,0 +1,29 @@
+name: fail-pass-execute-jobs
+
+on: [workflow_dispatch]
+
+jobs:
+  fail-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: fail job
+        run: |
+          echo "failing the job"
+          exit 1;
+  pass-job:
+    runs-on: ubuntu-latest
+    needs: fail-job
+    if: always()
+    steps:
+      - name: pass job
+        run: |
+          echo "pass job"
+          
+  execute-job:
+    runs-on: ubuntu-latest
+    needs: pass-job    
+    steps:
+      - name: execute job
+        run: |
+          echo "execute job"         
+  
