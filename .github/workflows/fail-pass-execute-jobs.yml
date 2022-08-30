@@ -18,10 +18,11 @@ jobs:
       - name: pass job
         run: |
           echo "pass job"
+          exit 1
           
   execute-job:
     runs-on: ubuntu-latest
-    needs: pass-job   
+    needs: 'pass-job'
     if:  ${{ always() && needs.pass-job.result == 'success' }}
     steps:
       - name: execute job
