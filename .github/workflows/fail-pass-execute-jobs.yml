@@ -22,7 +22,7 @@ jobs:
   execute-job:
     runs-on: ubuntu-latest
     needs: pass-job   
-    if:  always()
+    if:  ${{ always() && needs.pass-job.result == 'success' }}
     steps:
       - name: execute job
         run: |
