@@ -3,52 +3,60 @@ name: Remote Trigger Flow
 on: 
   workflow_dispatch:
     inputs:
-      FILE1:
-        description: File Name 
+#       PDM parameters
+      DeploymentID:
+        description: "Deployment ID of the pipeline on which the task is triggered" 
+        required: true      
+      DeploymentNumber:
+        description: "Sequence number of the deployment."
         required: true
-        default: a.txt
-      param2:
-        description: "demo file"
-        required: true
-      callbackURL:
+      CallBackURL:
         description: "Pega Callback URL"
+        required: true
+      TaskID:
+        description: "TaskID of the GitHub task"
+        required: true       
+      OrchestratorURL:
+        description: "URL on which the GitHub task is configured"
+        required: true
+      PipelineName:
+        description: "Pipeline name on which the GitHub task is configured"
+        required: true        
+      PipelineID:
+        description: "ID of the pipeline on which the GitHub task is configured"
+        required: true       
+      CurrentStage:
+        description: "Name of the stage on which the GitHub task is configured"
+        required: true
+      CurrentStageURL:
+        description: "URL of the system on which the GitHub task is configured"
+        required: true
+      DeploymentArtifactName:
+        description: "Artifact name that the Deploy task uses on the stage on which the GitHub task is configured"
         required: false
-      
-
-env:
-  FILE2: b.txt
-  ENVIRONMENT_FILE: a.properties
-  ENVIRONMENT: dev
+      ArtifactPath:
+        description: "Full path to the artifact that the Deploy task uses"
+        required: false
+#       Workflow parameters
+      TEST_SUITE_NAME:
+        description: "Automation test suite (testng xml) to be executed"
+        required: true
 
 jobs:
-  add2Files:   
+  pega-github-custom-task:   
     runs-on: ubuntu-latest
     steps:
-    - name: Create 2 Files
+    - name: Print all the parameters
       run: |   
-      
-        echo "Unknown params: ${{inputs.param3}}"
-      
-        if [[ ! -z "${{ inputs.callbackURL }}" ]]
-        then
-          echo ${{ inputs.callbackURL }}
-          user2_response=$(curl --location ${{ inputs.callbackURL}})
-          echo $user2_response
-        else
-          echo "no callback url passed"
-        fi       
-        
-        echo "Creating 2 Files"
-        touch ${{inputs.FILE1}}
-        echo "first file" >> ${{inputs.FILE1}}
-        touch ${{env.FILE2}}
-        echo "second file" >> ${{env.FILE2}}
-        echo "environment=${{env.ENVIRONMENT}}" >> ${{env.ENVIRONMENT_FILE}}
-    - name: Upload files
-      uses: actions/upload-artifact@v3
-      with:
-         name: homework
-         path: |
-           a.txt
-           b.txt
-           ${{env.ENVIRONMENT_FILE}}
+        echo "DeploymentID: ${{ inputs.DeploymentID }}"
+        echo "DeploymentNumber: ${{ inputs.DeploymentNumber }}"
+        echo "CallBackURL: ${{ inputs.CallBackURL }}"
+        echo "TaskID: ${{ inputs.TaskID }}"
+        echo "OrchestratorURL: ${{ inputs.OrchestratorURL }}"
+        echo "PipelineName: ${{ inputs.PipelineName }}"
+        echo "PipelineID: ${{ inputs.PipelineID }}"
+        echo "CurrentStage: ${{ inputs.CurrentStage }}"
+        echo "CurrentStageURL: ${{ inputs.CurrentStageURL }}"
+        echo "DeploymentArtifactName: ${{ inputs.DeploymentArtifactName }}"
+        echo "ArtifactPath: ${{ inputs.ArtifactPath }}"
+        echo "TEST_SUITE_NAME: ${{ inputs.TEST_SUITE_NAME }}"       
