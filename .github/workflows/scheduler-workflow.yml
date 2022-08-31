@@ -31,12 +31,12 @@ on:
       CurrentStageURL:
         description: "URL of the system on which the GitHub task is configured"
         required: true
-      DeploymentArtifactName:
-        description: "Artifact name that the Deploy task uses on the stage on which the GitHub task is configured"
-        required: false
-      ArtifactPath:
-        description: "Full path to the artifact that the Deploy task uses"
-        required: false
+#       DeploymentArtifactName:
+#         description: "Artifact name that the Deploy task uses on the stage on which the GitHub task is configured"
+#         required: false
+#       ArtifactPath:
+#         description: "Full path to the artifact that the Deploy task uses"
+#         required: false
 #       Workflow parameters
       TEST_SUITE_NAME:
         description: "Automation test suite (testng xml) to be executed"
