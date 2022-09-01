@@ -9,16 +9,16 @@ on:
         required: true      
       DeploymentNumber:
         description: "Sequence number of the deployment."
-        required: true
+        required: false
       CallBackURL:
         description: "Pega Callback URL"
         required: true
       TaskID:
         description: "TaskID of the GitHub task"
-        required: true       
+        required: false       
       OrchestratorURL:
         description: "URL on which the GitHub task is configured"
-        required: true
+        required: false
       PipelineName:
         description: "Pipeline name on which the GitHub task is configured"
         required: true        
@@ -30,7 +30,7 @@ on:
         required: true
       CurrentStageURL:
         description: "URL of the system on which the GitHub task is configured"
-        required: true
+        required: false
 #       DeploymentArtifactName:
 #         description: "Artifact name that the Deploy task uses on the stage on which the GitHub task is configured"
 #         required: false
