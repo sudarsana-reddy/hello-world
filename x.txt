@@ -1,1 +1,51 @@
 ACRtXIfj0lrnzuBb2itDjMWraWJgbw2VoJwf
+{
+    "intermediateInput": "",
+    "intermediateInputsList": [],
+    "logContent": "",
+    "taskUpdatedTime": "19700101T000000.000 GMT",
+    "environmentType": "",
+    "intermediateInputParameters": "",
+    "taskIDInPipeline": "",
+    "pipelineID": "",
+    "isNotificationRequired": false,
+    "environmentID": "",
+    "stageName": "",
+    "intermediateStatusMessage": "",
+    "actionNote": "",
+    "deploymentID": "",
+    "taskInfo": {
+        "taskType": "",
+        "purpose": "",
+        "description": "",
+        "isPegaShipped": false,
+        "taskLabel": "",
+        "inputParameters": [],
+        "taskCategory": "",
+        "outputParameters": [
+            {
+                "isRequired": false,
+                "name": "BuildNumber",
+                "description": "",
+                "label": "",
+                "type": "Text",
+                "value": "29",
+                "order": 0
+            },
+            {
+                "isRequired": false,
+                "name": "GitHubRunURL",
+                "description": "",
+                "label": "",
+                "type": "Text",
+                "value": "https://github.com/sudarsana-reddy/hello-world/actions/runs/2970101326",
+                "order": 0
+            }
+        ]
+    },
+    "authenticationProfile": "",
+    "taskID": "",
+    "deploymentNumber": "",
+    "taskStatus": "Resolved-Completed",
+    "errors": []
+}
