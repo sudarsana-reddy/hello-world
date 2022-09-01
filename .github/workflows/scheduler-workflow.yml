@@ -50,7 +50,7 @@ jobs:
       run: |   
         echo "DeploymentID: ${{ inputs.DeploymentID }}"
         echo "DeploymentNumber: ${{ inputs.DeploymentNumber }}"
-        echo "CallBackURL: ${{ inputs.CallBackURL }}"
+        echo "CallBackURL: ${{ inputs.CallBackURL }}"        
         echo "TaskID: ${{ inputs.TaskID }}"
         echo "OrchestratorURL: ${{ inputs.OrchestratorURL }}"
         echo "PipelineName: ${{ inputs.PipelineName }}"
@@ -63,6 +63,7 @@ jobs:
 
     - name: Update Pega DM Task
       run: |  
+        CallBackURL=$(echo "${{ inputs.CallBackURL }}" | sed 's/legacy_tasks/tasks/g')
         authResponse=$(curl --location -g --request POST "${{ secrets.SUPUN_PDM_URL }}/prweb/PRRestService/oauth2/v1/token" \
         --header 'Content-Type: application/x-www-form-urlencoded' \
         --data-urlencode 'client_id=${{ secrets.PEGA_DM_CLIENT_ID}}' \
@@ -73,7 +74,7 @@ jobs:
         authToken=$(echo $authResponse | jq .access_token)
         echo $authToken
 
-        updateTaskResponse=$(curl --location --request PUT "${{ inputs.CallBackURL }}" \
+        updateTaskResponse=$(curl --location --request PUT "$CallBackURL" \
           --header 'Authorization: Bearer $authToken' \
           --header 'Content-Type: application/json' \
           --data-raw '{
