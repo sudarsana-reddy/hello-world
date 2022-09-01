@@ -94,4 +94,4 @@ jobs:
                 ]
               }
             }')
-          echo "updateTaskResponse: $updateTaskResponse";
+        echo "updateTaskResponse: $updateTaskResponse";
