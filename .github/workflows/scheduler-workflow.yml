@@ -59,4 +59,38 @@ jobs:
         echo "CurrentStageURL: ${{ inputs.CurrentStageURL }}"
         echo "DeploymentArtifactName: ${{ inputs.DeploymentArtifactName }}"
         echo "ArtifactPath: ${{ inputs.ArtifactPath }}"
-        echo "TEST_SUITE_NAME: ${{ inputs.TEST_SUITE_NAME }}"       
+        echo "TEST_SUITE_NAME: ${{ inputs.TEST_SUITE_NAME }}"
+
+    - name: Update Pega DM Task
+      run: |  
+        authResponse=$(curl --location -g --request POST "${{ secrets.SUPUN_PDM_URL }}/prweb/PRRestService/oauth2/v1/token" \
+        --header 'Content-Type: application/x-www-form-urlencoded' \
+        --data-urlencode 'client_id=${{ secrets.cleint_id}}' \
+        --data-urlencode 'client_secret=${{ secrets.SUPUN_PDM_CLIENT_SECRET}}' \
+        --data-urlencode 'grant_type=client_credentials')
+
+        echo $authResponse
+        authToken=$(echo $authResponse | jq .access_token)
+        echo $authToken
+
+        updateTaskResponse=$(curl --location --request PUT "${{ inputs.CallBackURL }}" \
+          --header 'Authorization: Bearer $authToken' \
+          --header 'Content-Type: application/json' \
+          --data-raw '{
+            "taskStatus": "Resolved-Completed",           
+            "taskInfo": {
+                "outputParameters": [
+                  {
+                    "name": "BuildNumber",
+                    "type": "Text",
+                    "value": "${{ github.run_number }}"
+                  },
+                  {
+                    "name": "GitHubBuildURL",
+                    "type": "Text",
+                    "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                  }
+                ]
+              }
+            }')
+          echo "updateTaskResponse: $updateTaskResponse";
