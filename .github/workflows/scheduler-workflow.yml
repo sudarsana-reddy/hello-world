@@ -61,37 +61,37 @@ jobs:
         echo "ArtifactPath: ${{ inputs.ArtifactPath }}"
         echo "TEST_SUITE_NAME: ${{ inputs.TEST_SUITE_NAME }}"
 
-    - name: Update Pega DM Task
-      run: |  
-        CallBackURL=$(echo "${{ inputs.CallBackURL }}" | sed 's/legacy_tasks/tasks/g')
-        authResponse=$(curl --location -g --request POST "${{ secrets.SUPUN_PDM_URL }}/prweb/PRRestService/oauth2/v1/token" \
-        --header 'Content-Type: application/x-www-form-urlencoded' \
-        --data-urlencode 'client_id=${{ secrets.PEGA_DM_CLIENT_ID}}' \
-        --data-urlencode 'client_secret=${{ secrets.SUPUN_PDM_CLIENT_SECRET}}' \
-        --data-urlencode 'grant_type=client_credentials')
+#     - name: Update Pega DM Task
+#       run: |  
+#         CallBackURL=$(echo "${{ inputs.CallBackURL }}" | sed 's/legacy_tasks/tasks/g')
+#         authResponse=$(curl --location -g --request POST "${{ secrets.SUPUN_PDM_URL }}/prweb/PRRestService/oauth2/v1/token" \
+#         --header 'Content-Type: application/x-www-form-urlencoded' \
+#         --data-urlencode 'client_id=${{ secrets.PEGA_DM_CLIENT_ID}}' \
+#         --data-urlencode 'client_secret=${{ secrets.SUPUN_PDM_CLIENT_SECRET}}' \
+#         --data-urlencode 'grant_type=client_credentials')
 
-        echo $authResponse
-        authToken=$(echo $authResponse | jq -j ".access_token")
-        echo $authToken
+#         echo $authResponse
+#         authToken=$(echo $authResponse | jq -j ".access_token")
+#         echo $authToken
 
-        updateTaskResponse=$(curl --location --request PUT "$CallBackURL" \
-          --header "Authorization: Bearer $authToken" \
-          --header 'Content-Type: application/json' \
-          --data-raw '{
-            "taskStatus": "Resolved-Completed",           
-            "taskInfo": {
-                "outputParameters": [
-                  {
-                    "name": "BuildNumber",
-                    "type": "Text",
-                    "value": "${{ github.run_number }}"
-                  },
-                  {
-                    "name": "GitHubBuildURL",
-                    "type": "Text",
-                    "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                  }
-                ]
-              }
-            }')
+#         updateTaskResponse=$(curl --location --request PUT "$CallBackURL" \
+#           --header "Authorization: Bearer $authToken" \
+#           --header 'Content-Type: application/json' \
+#           --data-raw '{
+#             "taskStatus": "Resolved-Completed",           
+#             "taskInfo": {
+#                 "outputParameters": [
+#                   {
+#                     "name": "BuildNumber",
+#                     "type": "Text",
+#                     "value": "${{ github.run_number }}"
+#                   },
+#                   {
+#                     "name": "GitHubBuildURL",
+#                     "type": "Text",
+#                     "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+#                   }
+#                 ]
+#               }
+#             }')
         echo "updateTaskResponse: $updateTaskResponse";
