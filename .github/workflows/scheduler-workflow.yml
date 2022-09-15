@@ -67,7 +67,7 @@ jobs:
         authResponse=$(curl --location -g --request POST "${{ inputs.OrchestratorURL }}/PRRestService/oauth2/v1/token" \
         --header 'Content-Type: application/x-www-form-urlencoded' \
         --data-urlencode 'client_id=${{ secrets.PEGA_DM_CLIENT_ID}}' \
-        --data-urlencode 'client_secret=${{ secrets.SUPUN_PDM_CLIENT_SECRET}}' \
+        --data-urlencode 'client_secret=${{ secrets.PEGA_DM_CLIENT_SECRET}}' \
         --data-urlencode 'grant_type=client_credentials')
 
         echo $authResponse
