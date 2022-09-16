@@ -7,9 +7,9 @@ on:
       DeploymentID:
         description: "Deployment ID of the pipeline on which the task is triggered" 
         required: false      
-      DeploymentNumber:
-        description: "Sequence number of the deployment."
-        required: false
+#       DeploymentNumber:
+#         description: "Sequence number of the deployment."
+#         required: false
       CallBackURL:
         description: "Pega Callback URL"
         required: false
@@ -40,6 +40,9 @@ on:
 #       Workflow parameters
       TEST_SUITE_NAME:
         description: "Automation test suite (testng xml) to be executed"
+        required: false
+      BROWSER:
+        description: Browser Name
         required: false
 
 jobs:
