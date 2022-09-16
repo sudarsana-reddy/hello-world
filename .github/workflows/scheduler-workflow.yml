@@ -41,7 +41,7 @@ on:
       TEST_SUITE_NAME:
         description: "Automation test suite (testng xml) to be executed"
         required: false
-      Browser:
+      BROWSER:
         description: Browser Name
         required: false
 
@@ -63,6 +63,7 @@ jobs:
         echo "DeploymentArtifactName: ${{ inputs.DeploymentArtifactName }}"
         echo "ArtifactPath: ${{ inputs.ArtifactPath }}"
         echo "TEST_SUITE_NAME: ${{ inputs.TEST_SUITE_NAME }}"
+        echo "BROWSER: ${{ inputs.BROWSER }}"
 
     - name: Update Pega DM Task
       run: |  
