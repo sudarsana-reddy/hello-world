@@ -1,1 +1,31 @@
+CodeQL (Code Scanning): 
 
+CodeQL is the code analysis engine developed by GitHub to automate security checks. CodeQL treats code like database and runs CodeQL queries on the database to identify problems in the database. The query results will be shown as code scanning alerts in the Security tab of the repository. 
+
+CodeQL supports both compiled and interpreted languages and can find vulnerabilities and errors in code that's written in the supported languages. 
+
+C/C++ 
+
+C# 
+
+Go 
+
+Java  
+
+JavaScript/TypeScript 
+
+Python 
+
+Ruby 
+
+For complete list of supported languages and versions refer https://codeql.github.com/docs/codeql-overview/supported-languages-and-frameworks/. 
+
+There are two main ways to use CodeQL analysis for code scanning: 
+
+Add the CodeQL workflow to your repository. This uses the github/codeql-action to run the CodeQL CLI. For more information, see "Setting up code scanning for a repository." 
+
+Run the CodeQL CLI directly in an external CI system and upload the results to GitHub. For more information, see "About CodeQL code scanning in your CI system . 
+
+In TFA we are going to use the action github/codeql-action as TFA is using the GitHub itself as orchestrator. 
+
+ 
