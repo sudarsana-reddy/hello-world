@@ -26,6 +26,6 @@ jobs:
         git clone -b main https://${{ secrets.PAT }}@github.com/sudarsana-reddy/sample-gh-custom-action.git
         
     - name: echo the wokflow url
-       uses: ./sample-gh-custom-action
-       with:
+      uses: ./sample-gh-custom-action
+      with:
         LOG_MESSAGE: "Sample"
