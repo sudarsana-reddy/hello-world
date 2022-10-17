@@ -23,7 +23,7 @@ jobs:
     
     - name: Checkout custom action
       run: |      
-        git clone -b main https://${{ secrets.PAT }}@github.com/sudarsana-reddy/sample-gh-custom-action.git
+        git clone -b dev https://${{ secrets.PAT }}@github.com/sudarsana-reddy/sample-gh-custom-action.git
         
     - name: echo the wokflow url
       uses: ./sample-gh-custom-action
