@@ -29,3 +29,4 @@ jobs:
       uses: ./sample-gh-custom-action
       with:
         LOG_MESSAGE: "Sample"
+        USERNAME: "SUD"
