@@ -22,8 +22,8 @@ on:
       PipelineName:
         description: "Pipeline name on which the GitHub task is configured"
         required: true        
-      PipelineID:
-        description: "ID of the pipeline on which the GitHub task is configured"
+      DeploymentNumber:
+        description: "Deployment Number"
         required: false       
       CurrentStage:
         description: "Name of the stage on which the GitHub task is configured"
