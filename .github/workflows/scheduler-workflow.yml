@@ -57,7 +57,7 @@ jobs:
         echo "TaskID: ${{ inputs.TaskID }}"
         echo "OrchestratorURL: ${{ inputs.OrchestratorURL }}"
         echo "PipelineName: ${{ inputs.PipelineName }}"
-        echo "PipelineID: ${{ inputs.PipelineID }}"
+        echo "PipelineID: ${{ inputs.DeploymentNumber }}"
         echo "CurrentStage: ${{ inputs.CurrentStage }}"
         echo "CurrentStageURL: ${{ inputs.CurrentStageURL }}"
         echo "DeploymentArtifactName: ${{ inputs.DeploymentArtifactName }}"
