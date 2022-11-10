@@ -87,8 +87,8 @@ jobs:
                 "outputParameters": [
                   {
                     "name": "PassPercentage",
-                    "type": "Integer",
-                    "value": 80
+                    "type": "String",
+                    "value": "80"
                   },
                   {
                     "name": "BuildNumber",
