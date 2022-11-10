@@ -25,7 +25,7 @@ on:
       DeploymentNumber:
         description: "Deployment Number"
         required: false       
-      CurrentStage:
+      Stage:
         description: "Name of the stage on which the GitHub task is configured"
         required: false
       CurrentStageURL:
@@ -58,7 +58,7 @@ jobs:
         echo "OrchestratorURL: ${{ inputs.OrchestratorURL }}"
         echo "PipelineName: ${{ inputs.PipelineName }}"
         echo "PipelineID: ${{ inputs.DeploymentNumber }}"
-        echo "CurrentStage: ${{ inputs.CurrentStage }}"
+        echo "CurrentStage: ${{ inputs.Stage }}"
         echo "CurrentStageURL: ${{ inputs.CurrentStageURL }}"
         echo "DeploymentArtifactName: ${{ inputs.DeploymentArtifactName }}"
         echo "ArtifactPath: ${{ inputs.ArtifactPath }}"
