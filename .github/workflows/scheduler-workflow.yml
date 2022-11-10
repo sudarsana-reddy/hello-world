@@ -86,6 +86,11 @@ jobs:
             "taskInfo": {
                 "outputParameters": [
                   {
+                    "name": "PassPercentage",
+                    "type": "Integer",
+                    "value": 80
+                  },
+                  {
                     "name": "BuildNumber",
                     "type": "Text",
                     "value": "${{ github.run_number }}"
@@ -94,12 +99,8 @@ jobs:
                     "name": "GitHubBuildURL",
                     "type": "Text",
                     "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-                  },
-                  {
-                    "name": "PassPercentage",
-                    "type": "Integer",
-                    "value": 80
                   }
+                  
                 ]
               }
             }')
