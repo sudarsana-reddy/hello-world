@@ -94,8 +94,12 @@ jobs:
                     "name": "BuildNumber",
                     "type": "Text",
                     "value": "${{ github.run_number }}"
+                  },
+                  {
+                    "name": "GitHubBuildURL",
+                    "type": "Text",
+                    "value": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
                   }                  
-                  
                 ]
               }
             }')
