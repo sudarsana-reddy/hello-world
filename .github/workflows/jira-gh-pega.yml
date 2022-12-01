@@ -1,0 +1,37 @@
+
+name: "Jira-Trigger"
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on: 
+  workflow_dispatch:
+    inputs:
+      JIRA_ISSUE_DESCRIPTION:
+        description: "Jira Issue Decsription"
+        required: true
+#       PEGA_TARGET_APP:
+#         description: "App to trigger pipeline for"
+#         required: true
+#         default: QUANTUM
+
+#       PEGA_PROD_NAME:
+#         description: "Product Rule Name to be deployed"
+#         required: true
+
+#       PEGA_PROD_VERSION:
+#         description: "Product Rule Version to be deployed"
+#         required: true
+#         default: 01.01.01
+
+      
+      
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "getPegaPipelines"
+  triggerPDMPipeline:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print the issue description
+        run: |  
+          echo ${{ inputs.JIRA_ISSUE_DESCRIPTION }}
