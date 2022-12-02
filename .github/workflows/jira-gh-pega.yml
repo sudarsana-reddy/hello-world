@@ -6,7 +6,7 @@ name: "Jira-Trigger"
 on: 
   workflow_dispatch:
     inputs:
-      JIRA_ISSUE_DESCRIPTION:
+      JIRA_ISSUE_KEY:
         description: "Jira Issue Decsription"
         required: true
 #       PEGA_TARGET_APP:
