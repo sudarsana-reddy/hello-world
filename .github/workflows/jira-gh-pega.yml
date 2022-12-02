@@ -31,8 +31,8 @@ jobs:
         with:
           JIRA_REST_API_URL: ${{secrets.JIRA_REST_API_URL}}
           JIRA_ISSUE_KEY: ${{ inputs.JIRA_ISSUE_KEY }}
-          JIRA_USERNAME: ${{secrets.JIRA_USER_ID}}
-          JIRA_API_KEY: ${{secrets.JIRA_API_KEY}}
+          JIRA_USERNAME: ${{ secrets.JIRA_USER_ID }}
+          JIRA_API_KEY: ${{ secrets.JIRA_API_KEY }}
           JIRA_APP_JSON_FILE: "jira-pega-apps.json" 
 
       - name: Upload jira app json file
