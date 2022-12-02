@@ -9,20 +9,6 @@ on:
       JIRA_ISSUE_KEY:
         description: "Jira Issue Decsription"
         required: true
-#       PEGA_TARGET_APP:
-#         description: "App to trigger pipeline for"
-#         required: true
-#         default: QUANTUM
-
-#       PEGA_PROD_NAME:
-#         description: "Product Rule Name to be deployed"
-#         required: true
-
-#       PEGA_PROD_VERSION:
-#         description: "Product Rule Version to be deployed"
-#         required: true
-#         default: 01.01.01
-
       
       
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -35,3 +21,33 @@ jobs:
       - name: Print the issue KEY
         run: |  
           echo ${{ inputs.JIRA_ISSUE_KEY }}
+          
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Get Jira Desciption Data
+        id: jiraData
+        uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/jira-description-data@v1
+        with:
+          JIRA_REST_API_URL: ${{secrets.JIRA_REST_API_URL}}
+          JIRA_ISSUE_KEY: "PEG-8"
+          JIRA_USERNAME: ${{secrets.JIRA_USERNAME}}
+          JIRA_API_KEY: ${{secrets.JIRA_API_KEY}}
+          JIRA_APP_JSON_FILE: "jira-pega-apps.json" 
+
+      - name: Upload jira app json file
+        uses: actions/upload-artifact@v3
+        with:         
+          name: jira-pega-apps.json
+          # A file, directory or wildcard pattern that describes what to upload
+          path: jira-pega-apps.json
+
+      - name: Trigger Pega Piplines
+        uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/trigger-pega-pipelines@v1
+        with:
+          PEGA_DM_REST_URL: ${{ secrets.PEGA_DM_REST_URL }}
+          PEGA_DM_CLIENT_ID: ${{ secrets.PEGA_DM_CLIENT_ID }}
+          PEGA_DM_CLIENT_SECRET: ${{ secrets.PEGA_DM_CLIENT_SECRET }}
+          JIRA_PEGA_APP_DATA_JSON: "jira-pega-apps.json"
+          PEGA_PIPELINE_MAPPING_JSON: "pega-pipilne-mappings.json"
+      
