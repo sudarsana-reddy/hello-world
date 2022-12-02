@@ -30,8 +30,8 @@ jobs:
         uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/jira-description-data@v1
         with:
           JIRA_REST_API_URL: ${{secrets.JIRA_REST_API_URL}}
-          JIRA_ISSUE_KEY: "PEG-8"
-          JIRA_USERNAME: ${{secrets.JIRA_USERNAME}}
+          JIRA_ISSUE_KEY: ${{ inputs.JIRA_ISSUE_KEY }}
+          JIRA_USERNAME: ${{secrets.JIRA_USER_ID}}
           JIRA_API_KEY: ${{secrets.JIRA_API_KEY}}
           JIRA_APP_JSON_FILE: "jira-pega-apps.json" 
 
