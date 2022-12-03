@@ -27,7 +27,7 @@ jobs:
       
       - name: Get Jira Desciption Data
         id: jiraData
-        uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/jira-description-data@v1.1.2
+        uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/jira-description-data@main
         with:
           JIRA_REST_API_URL: ${{secrets.JIRA_REST_API_URL}}
           JIRA_ISSUE_KEY: ${{ inputs.JIRA_ISSUE_KEY }}
@@ -43,7 +43,7 @@ jobs:
           path: jira-pega-apps.json
 
       - name: Trigger Pega Piplines
-        uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/trigger-pega-pipelines@v1.1.2
+        uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/trigger-pega-pipelines@main
         with:
           PEGA_DM_REST_URL: ${{ secrets.PEGA_DM_REST_URL }}
           PEGA_DM_CLIENT_ID: ${{ secrets.PEGA_DM_CLIENT_ID }}
