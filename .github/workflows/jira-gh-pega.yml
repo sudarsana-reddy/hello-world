@@ -59,4 +59,24 @@ jobs:
           name: pega-deployment-status
           # A file, directory or wildcard pattern that describes what to upload
           path: pega-deployment-status.json
-      
+          
+      - name: Update JIRA Issue Comments - with Pipeline Status 
+        if: always()
+        uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/jira-add-comments@main
+        with:
+          JIRA_REST_API_URL: ${{secrets.JIRA_REST_API_URL}}
+          JIRA_ISSUE_KEY: ${{ inputs.JIRA_ISSUE_KEY }}
+          JIRA_USERNAME: ${{ secrets.JIRA_USER_ID }}
+          JIRA_API_KEY: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_TABLE_HEADERS: "applicationName,pieplineId,deploymentId,deploymentStatus"
+          PEGA_DEPLOYMENT_STATUS_JSON: "pega-deployment-status.json"
+          
+      - name: Update Jira Issue Status(Transition)
+        if: always()
+        uses: sudarsana-reddy/hello-world-javascript-action/custom-actions/jira-issue-transition@main
+        with:
+          JIRA_REST_API_URL: ${{secrets.JIRA_REST_API_URL}}
+          JIRA_ISSUE_KEY: ${{ inputs.JIRA_ISSUE_KEY }}
+          JIRA_USERNAME: ${{ secrets.JIRA_USER_ID }}
+          JIRA_API_KEY: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_ISSUE_TRANSITION_TO_CODE: "21"
