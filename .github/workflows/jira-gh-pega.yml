@@ -50,4 +50,12 @@ jobs:
           PEGA_DM_CLIENT_SECRET: ${{ secrets.PEGA_DM_CLIENT_SECRET }}
           JIRA_PEGA_APP_DATA_JSON: "jira-pega-apps.json"
           PEGA_PIPELINE_MAPPING_JSON: "pega-pipilne-mappings.json"
+          PEGA_DEPLOYMENT_STATUS_JSON: "pega-deployment-status.json"
+          
+      - name: Upload pega deployment status json file
+        uses: actions/upload-artifact@v3
+        with:         
+          name: pega-deployment-status
+          # A file, directory or wildcard pattern that describes what to upload
+          path: pega-deployment-status.json
       
