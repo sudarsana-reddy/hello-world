@@ -51,6 +51,7 @@ jobs:
           JIRA_PEGA_APP_DATA_JSON: "jira-pega-apps.json"
           PEGA_PIPELINE_MAPPING_JSON: "pega-pipilne-mappings.json"
           PEGA_DEPLOYMENT_STATUS_JSON: "pega-deployment-status.json"
+          JIRA_ISSUE_KEY: ${{ inputs.JIRA_ISSUE_KEY }}
           
       - name: Upload pega deployment status json file
         uses: actions/upload-artifact@v3
