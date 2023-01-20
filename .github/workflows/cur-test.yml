@@ -9,6 +9,6 @@ jobs:
     steps:
       - name: test
         run: |
-         response=$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' https://dev.toyotafinanceonline.com.au)
+         response=$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' https://www.google.com)
          echo $response
         
