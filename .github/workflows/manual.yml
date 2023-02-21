@@ -6,6 +6,13 @@ name: Sample Custom Action
 # or API.
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        type: choice
+        description: Who to greet
+        options: 
+        - monalisa
+        - cschleiden
 
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -19,7 +26,7 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: Send greeting
-      run: echo "Hello ${{ github.event.inputs.name }}"
+      run: echo "Hello ${{ inputs.name }}"
     
     - name: Checkout custom action
       run: |      
