@@ -1,0 +1,15 @@
+name: Custom Deployment Rule
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-custom-deployment-rule:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Test message
+        run: |
+          echo "test message"
+  
+  
